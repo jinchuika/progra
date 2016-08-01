@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Plugins &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../index.html"/>
+        <link rel="up" title="Developer Guide" href="index.html"/>
+        <link rel="next" title="Distribution and installers" href="building.html"/>
+        <link rel="prev" title="Tech Stack" href="stack.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#architecture">Architecture</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stack.html">Tech Stack</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Plugins</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#enabling-and-disabling-plugins">Enabling and disabling plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-stuff-you-can-do-with-plugins">Other stuff you can do with plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core-plugin-example">Core plugin example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="building.html">Distribution and installers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uap.html">Users, Authentication, and Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html">Front-end Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asset_loading.html">Front-end Asset Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html">Project Conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Plugins</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/plugins.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="plugins">
+<span id="dev-plugins"></span><h1>Plugins<a class="headerlink" href="#plugins" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>The behavior of Kolibri can be extended using plugins. The following is a guide
+to developing plugins.</p>
+<div class="section" id="enabling-and-disabling-plugins">
+<h2>Enabling and disabling plugins<a class="headerlink" href="#enabling-and-disabling-plugins" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Non-core plugins can be enabled or disabled using the <code class="docutils literal"><span class="pre">kolibri</span> <span class="pre">plugin</span></code> command. See <a class="reference internal" href="../cli.html"><span class="doc">The kolibri command</span></a>.</p>
+<span class="target" id="module-kolibri.plugins.registry"></span><div class="section" id="how-plugins-work">
+<h3>How plugins work<a class="headerlink" href="#how-plugins-work" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>From a user&#8217;s perspective, plugins are enabled and disabled through the command
+line interface or through a UI. Users can also configure a plugin&#8217;s behavior
+through the main Kolibri interface.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p>We have not yet written a configuration API, for now just make sure
+configuration-related variables are kept in a central location of your
+plugin.</p>
+<p>It&#8217;s up to the plugin to provide configuration <code class="docutils literal"><span class="pre">Form</span></code> classes and register
+them.</p>
+<p class="last">We should aim for a configuration style in which data can be pre-seeded,
+dumped and exported easily.</p>
+</div>
+<p>From a developer&#8217;s perspective, plugins are Django applications listed
+in <code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code> and are initialized once when the server starts, mean at
+the load time of the django project, i.e. Kolibri.</p>
+<div class="section" id="loading-a-plugin">
+<h4>Loading a plugin<a class="headerlink" href="#loading-a-plugin" title="Enlazar permanentemente con este título">¶</a></h4>
+<p>In general, a plugin should <strong>never</strong> modify internals of Kolibri or other
+plugins without using the hooks API or normal conventional Django scenarios.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Each app in <code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code> is searched for the special
+<code class="docutils literal"><span class="pre">kolibri_plugin</span></code> module.</p>
+</div>
+<p>Everything that a plugin does is expected to be defined through
+<code class="docutils literal"><span class="pre">&lt;myapp&gt;/kolibri_plugin.py</span></code>.</p>
+</div>
+</div>
+<span class="target" id="module-kolibri.plugins.hooks"></span><div class="section" id="kolibri-hooks-api">
+<h3>Kolibri Hooks API<a class="headerlink" href="#kolibri-hooks-api" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="section" id="what-are-hooks">
+<h4>What are hooks<a class="headerlink" href="#what-are-hooks" title="Enlazar permanentemente con este título">¶</a></h4>
+<p>Hooks are classes that define <em>something</em> that happens at one or more places
+where the hook is looked for and applied. It means that you can
+&#8220;hook into a component&#8221; in Kolibri and have it do a predefined and
+parameterized <em>thing</em>. For instance, Kolibri could ask all its plugins who
+wants to add something to the user settings panel, and its then up to the
+plugins to inherit from that specific hook and feed back the parameters that
+the hook definition expects.</p>
+<p>The consequences of a hook being applied can happen anywhere in Kolibri. Each
+hook is defined through a class inheriting from <code class="docutils literal"><span class="pre">KolibriHook</span></code>. But how the
+inheritor of that class deals with plugins using it, is entirely up to each
+specific implementation and can be applied in templates, views, middleware -
+basically everywhere!</p>
+<p>That&#8217;s why you should consult the class definition and documentation of the
+hook you are adding plugin functionality with.</p>
+<p>We have two different types of hooks:</p>
+<dl class="docutils">
+<dt>Abstract hooks</dt>
+<dd>Are definitions of hooks that are implemented by <em>implementing hooks</em>.</dd>
+<dt>Registered hooks</dt>
+<dd>Are concrete hooks that inherit from abstract hooks, thus embodying the
+definitions of the abstract hook into a specific case.</dd>
+<dt>So what&#8217;s &#8220;a hook&#8221;?</dt>
+<dd>Simply referring to &#8220;a hook&#8221; is okay, it can be ambiguous on purpose. For
+instance, in the example, we talk about &#8220;a navigation hook&#8221;. So we both
+mean the abstract definition of the navigation hook and everything that
+is registered for the navigation.</dd>
+</dl>
+</div>
+<div class="section" id="where-can-i-find-hooks">
+<h4>Where can I find hooks?<a class="headerlink" href="#where-can-i-find-hooks" title="Enlazar permanentemente con este título">¶</a></h4>
+<p>All Kolibri core applications and plugins alike should <em>by convention</em> define
+their abstract hooks inside <code class="docutils literal"><span class="pre">&lt;myapp&gt;/hooks.py</span></code>. Thus, to see which hooks
+a Kolibri component exposes, you can refer to its <code class="docutils literal"><span class="pre">hooks</span></code> module.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Defining abstract hooks in <code class="docutils literal"><span class="pre">&lt;myapp&gt;/hooks.py</span></code> isn&#8217;t mandatory, but
+<em>loading</em> a concrete hook in <code class="docutils literal"><span class="pre">&lt;myapp&gt;/kolibri_plugin.py</span></code> is.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">Do not define abstract and registered hooks in the same module. Or to put it
+in other words: Never put registered hooks in <code class="docutils literal"><span class="pre">&lt;myapp&gt;/hooks.py</span></code>. The
+non-abstract hooks should not be loaded unintentionally in case your
+application is not loaded but only used to import an abstract definition
+by an external component!</p>
+</div>
+</div>
+<div class="section" id="in-which-order-are-hooks-used-applied">
+<h4>In which order are hooks used/applied?<a class="headerlink" href="#in-which-order-are-hooks-used-applied" title="Enlazar permanentemente con este título">¶</a></h4>
+<p>This is entirely up to the registering class. By default, hooks are applied in
+the same order that the registered hook gets registered! This most likely means
+the order in which <code class="docutils literal"><span class="pre">kolibri_plugin</span></code> is loaded <code class="docutils literal"><span class="pre">=&gt;</span></code> the order in which the
+app is listed in <code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code></p>
+</div>
+</div>
+<div class="section" id="an-example-of-a-plugin-using-a-hook">
+<h3>An example of a plugin using a hook<a class="headerlink" href="#an-example-of-a-plugin-using-a-hook" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">The example shows a NavigationHook which is simplified for the sake of
+readability. The actual implementation in Kolibri will defer.</p>
+</div>
+</div>
+<div class="section" id="example-implementation">
+<h3>Example implementation<a class="headerlink" href="#example-implementation" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Here is an example of how to use a hook in <code class="docutils literal"><span class="pre">myplugin.kolibri_plugin.py</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.db.models</span>
+
+<span class="c1"># This is where the actual abstract hook is defined</span>
+<span class="kn">from</span> <span class="nn">kolibri.core.hooks</span> <span class="kn">import</span> <span class="n">NavigationHook</span>
+
+<span class="c1"># By inheriting NavigationHook, we tell that we are going to want our</span>
+<span class="c1"># plugin to be part of the hook&#39;s activities with the specified attributes.</span>
+<span class="c1"># We only define one navigation item, but defining another one is as simple</span>
+<span class="c1"># as adding another class definition.</span>
+<span class="k">class</span> <span class="nc">MyPluginNavigationItem</span><span class="p">(</span><span class="n">NavigationHook</span><span class="p">):</span>
+
+    <span class="n">label</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;My Plugin&quot;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;kolibri:my_plugin:index&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And here is the definition of that hook in kolibri.core.hooks:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">kolibri.plugins.hooks</span> <span class="kn">import</span> <span class="n">KolibriHook</span>
+
+
+<span class="k">class</span> <span class="nc">NavigationHook</span><span class="p">(</span><span class="n">KolibriHook</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extend this hook to define a new navigation item</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: A string label for the menu item</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span>
+
+    <span class="c1">#: A string or lazy proxy for the url</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_menu</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="n">menu</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">registered_hooks</span><span class="p">:</span>
+            <span class="n">menu</span><span class="p">[</span><span class="n">hook</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="k">return</span> <span class="n">menu</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage-of-the-hook">
+<h3>Usage of the hook<a class="headerlink" href="#usage-of-the-hook" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Inside our templates, we load a template tag from navigation_tags, and this
+template tag definition looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">kolibri.core.hooks</span> <span class="kn">import</span> <span class="n">NavigationHook</span>
+
+<span class="nd">@register.assignment_tag</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">kolibri_main_navigation</span><span class="p">():</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">NavigationHook</span><span class="p">()</span><span class="o">.</span><span class="n">get_menu</span><span class="p">():</span>
+        <span class="k">yield</span> <span class="n">item</span>
+</pre></div>
+</div>
+<div class="highlight-html"><div class="highlight"><pre><span></span>{% load kolibri_tags %}
+
+<span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+{% for menu_item in kolibri_main_navigation %}
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ menu_item.url }}&quot;</span><span class="p">&gt;</span>{{ menu_item.label }}<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+{% endfor %}
+<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">Do not load registered hook classes outside of a plugin&#8217;s
+<code class="docutils literal"><span class="pre">kolibri_plugin</span></code>. Either define them there directly or import the modules
+that define them. Hook classes should all be seen at load time, and
+placing that logic in <code class="docutils literal"><span class="pre">kolibri_plugin</span></code> guarantees that things are
+registered correctly.</p>
+</div>
+</div>
+</div>
+<div class="section" id="other-stuff-you-can-do-with-plugins">
+<h2>Other stuff you can do with plugins<a class="headerlink" href="#other-stuff-you-can-do-with-plugins" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Plugins can implement Javascript code as a Kolibri module that can be used in the frontend as a plugin to the core
+Kolibri Javascript code. Each of these Javascript plugins are defined in the <cite>kolibri_plugin.py</cite> file by subclassing the
+<code class="docutils literal"><span class="pre">KolibriFrontEndPluginBase</span></code> class to define each frontend Kolibri module. This defines the base Javascript file that
+defines the Kolibri module. In addition, this Plugin object within the app will automatically add these Kolibri modules
+to an internal frontend asset registry for loading in the front end. For more information on developing frontend code
+for Kolibri please see <a class="reference internal" href="frontend.html"><span class="doc">Front-end Architecture</span></a>.</p>
+<p>Plugins can be standalone Django apps in their own right, meaning they can define templates, models, new urls, and
+views just like any other app. However the API for all of this hasn&#8217;t yet been determined... Coming soon!</p>
+</div>
+<div class="section" id="core-plugin-example">
+<h2>Core plugin example<a class="headerlink" href="#core-plugin-example" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>View the source to learn more!</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.core.kolibri_plugin.</code><code class="descname">KolibriCore</code><a class="reference internal" href="../_modules/kolibri/core/kolibri_plugin.html#KolibriCore"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>The most minimal plugin possible. Because it&#8217;s in the core, it doesn&#8217;t define <code class="docutils literal"><span class="pre">enable</span></code> or <code class="docutils literal"><span class="pre">disable</span></code>. Those
+methods should never be called for this plugin.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="building.html" class="btn btn-neutral float-right" title="Distribution and installers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="stack.html" class="btn btn-neutral" title="Tech Stack" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

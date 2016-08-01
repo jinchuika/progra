@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Glossary &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../index.html"/>
+        <link rel="up" title="Developer Guide" href="index.html"/>
+        <link rel="next" title="User Logs" href="logger.html"/>
+        <link rel="prev" title="Files and Directories" href="files.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#references">References</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="files.html">Files and Directories</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Glossary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building.html">Distribution and installers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Glossary</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/glossary.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="glossary">
+<h1>Glossary<a class="headerlink" href="#glossary" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Words with special meanings in the Kolibri ecosystem.</p>
+<dl class="docutils">
+<dt>App</dt>
+<dd><p class="first">A Kolibri &#8216;app&#8217; is a special sort of plugin which provides a top-level URL and a self-contained single-page javascript application. Each app attaches a single root view component to the HTML returned by a skeleton Django template.</p>
+<p class="last">Examples of apps are the Learn, Admin, and Coach Reports apps.</p>
+</dd>
+<dt>Bundle</dt>
+<dd>&#8216;Bundle&#8217; is a webpack term, referring to a collection of client-side assets. See <a class="reference internal" href="asset_loading.html"><span class="doc">Front-end Asset Loading</span></a> for more info.</dd>
+<dt>Component</dt>
+<dd><p class="first">A &#8216;view component&#8217; is a composable UI element on the client-side, defined using Vue.js components.</p>
+<p>Components are defined using using HTML, other components, styling, internationalized text, internal logic, and – if necessary – internal state. Every component has an interface defined by its input parameters, events, and slots that can take arbitrary HTML to render in itself.</p>
+<p class="last">See <a class="reference internal" href="frontend.html"><span class="doc">Front-end Architecture</span></a> for more info.</p>
+</dd>
+<dt>Hook</dt>
+<dd><p class="first">A &#8216;hook&#8217; is the server-side mechanism by which plugins interact with each other and with the core app. Hooks allow behaviors and interactions to be defined abstractly by Kolibri core and then implemented concretely by plugins.</p>
+<p class="last">See <a class="reference internal" href="plugins.html"><span class="doc">Plugins</span></a> for more info.</p>
+</dd>
+<dt>Plugin</dt>
+<dd><p class="first">Kolibri &#8216;plugins&#8217; define both functionality client- and server-side functionality. They can be enabled and disabled on a per-installation basis. Plugins are decoupled from each other, but are dependent on the core Kolibri application.</p>
+<p>In theory, any plugin can be disabled and the application should still function without error, albeit limited functionality.</p>
+<p>Examples of plugins include the Learn application, and a content renderer for vector video.</p>
+<p class="last">See <a class="reference internal" href="plugins.html"><span class="doc">Plugins</span></a> for more info.</p>
+</dd>
+</dl>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="logger.html" class="btn btn-neutral float-right" title="User Logs" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="files.html" class="btn btn-neutral" title="Files and Directories" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

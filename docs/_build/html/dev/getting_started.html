@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting started &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../index.html"/>
+        <link rel="up" title="Developer Guide" href="index.html"/>
+        <link rel="next" title="Tests" href="tests.html"/>
+        <link rel="prev" title="Developer Guide" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#architecture">Architecture</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Getting started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#basic-etup">Basic etup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#additional-recommended-setup">Additional Recommended Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stack.html">Tech Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building.html">Distribution and installers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uap.html">Users, Authentication, and Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html">Front-end Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asset_loading.html">Front-end Asset Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html">Project Conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Getting started</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/getting_started.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="basic-etup">
+<h2>Basic etup<a class="headerlink" href="#basic-etup" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>This is how we typically set up a development environment.</p>
+<p>Note that most of the steps that follow require entering commands into your terminal, so you should be comfortable with that.</p>
+<div class="section" id="install-environment-dependencies">
+<h3>Install Environment Dependencies<a class="headerlink" href="#install-environment-dependencies" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>You&#8217;ll need to install the following dependencies:</p>
+<ul class="simple">
+<li>Python (including pip) - recommended version 2.7+ or 3.4+</li>
+<li>Node.js - recommended version 4+</li>
+<li>git</li>
+</ul>
+<p>The process for installing these depends on your operating system.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<ul class="last simple">
+<li>On Ubuntu, it is recommended to install Node.js via <a class="reference external" href="https://github.com/creationix/nvm">nvm</a> to avoid build issues.</li>
+<li>On a Mac, you may want to consider using the <a class="reference external" href="http://brew.sh/">Homebrew</a> package manager.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="clone-the-repository">
+<h3>Clone the Repository<a class="headerlink" href="#clone-the-repository" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>First clone the repo:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone git@github.com:learningequality/kolibri.git
+</pre></div>
+</div>
+<p>Then, <code class="docutils literal"><span class="pre">cd</span></code> into the new directory:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> kolibri
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">If you plan on contributing code, you may want to <a class="reference external" href="https://github.com/learningequality/kolibri">fork our github repo</a> and clone from your repo, rather than cloning from the learningequality repo. That will make it easier to <a class="reference external" href="https://help.github.com/articles/using-pull-requests/">submit pull requests</a>.</p>
+</div>
+</div>
+<div class="section" id="install-project-dependencies">
+<h3>Install Project Dependencies<a class="headerlink" href="#install-project-dependencies" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Install project-specific development dependencies.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p>It is considered best-practice to use a <a class="reference external" href="https://virtualenv.pypa.io/en/stable/">Python virtual environment</a> to isolate your Python dependencies during development. You may also want to consider using <a class="reference external" href="http://virtualenvwrapper.readthedocs.io/en/latest/index.html">virtualenvwrapper</a>.</p>
+<p>If you&#8217;re <em>not</em> using a Python virtual environment, you may need to use <code class="docutils literal"><span class="pre">sudo</span></code> with the <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span></code> commands below.</p>
+<p class="last">(<code class="docutils literal"><span class="pre">npm</span> <span class="pre">install</span></code> automatically isolates project dependencies and works without <code class="docutils literal"><span class="pre">sudo</span></code>.)</p>
+</div>
+<p>Run the following commands:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Node.js dependencies</span>
+npm install
+
+<span class="c1"># Python requirements</span>
+pip install -r requirements.txt
+pip install -r requirements/dev.txt
+
+<span class="c1"># Kolibri Python package in &#39;editable&#39; mode</span>
+pip install -e .
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-the-server">
+<h3>Run the Server<a class="headerlink" href="#run-the-server" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Then, start up the development server and build the client-side dependencies:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>kolibri manage devserver --debug -- --webpack
+</pre></div>
+</div>
+<p>Wait for the build process to complete. This takes a while the first time, will complete faster as you make edits and the assets are automatically re-built.</p>
+<p>Now you should be able to access certain URLs, in particular:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">http://127.0.0.1:8000/learn/</span></code></li>
+<li><code class="docutils literal"><span class="pre">http://127.0.0.1:8000/management/</span></code></li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">Currently no page is set up at the root URL (<code class="docutils literal"><span class="pre">http://127.0.0.1:8000/</span></code>), so don&#8217;t be suprised if that returns a 404.</p>
+</div>
+</div>
+</div>
+<div class="section" id="additional-recommended-setup">
+<h2>Additional Recommended Setup<a class="headerlink" href="#additional-recommended-setup" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>If you&#8217;re planning on contributing code to the project, there are a few additional steps you should consider taking.</p>
+<div class="section" id="editor-config">
+<h3>Editor Config<a class="headerlink" href="#editor-config" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>We have a project-level <em>.editorconfig</em> file to help you configure your text editor or IDE to use our internal conventions.</p>
+<p><a class="reference external" href="http://editorconfig.org/#download">Check your editor</a> to see if it supports EditorConfig out-of-the-box, or if a plugin is available.</p>
+</div>
+<div class="section" id="front-end-dev-tools">
+<h3>Front-end Dev Tools<a class="headerlink" href="#front-end-dev-tools" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>If you&#8217;re working with front-end Vue.js and use Google Chrome Dev Tools, you may find the <a class="reference external" href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en">Vue.js devtools</a> helpful</p>
+</div>
+<div class="section" id="db-setup">
+<h3>DB Setup<a class="headerlink" href="#db-setup" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>You can initialize the server using:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>kolibri manage migrate
+</pre></div>
+</div>
+</div>
+<div class="section" id="pre-commit-install">
+<h3>Pre-Commit Install<a class="headerlink" href="#pre-commit-install" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>We use <a class="reference external" href="http://pre-commit.com/">pre-commit</a> to help ensure consistent, clean code. The pip package should already be installed from a prior setup step, but you need to install the git hooks using this command.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pre-commit install
+</pre></div>
+</div>
+</div>
+<div class="section" id="code-testing">
+<h3>Code Testing<a class="headerlink" href="#code-testing" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Kolibri comes with a Python test suite based on <code class="docutils literal"><span class="pre">py.test</span></code>. To run tests in your current environment:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python setup.py <span class="nb">test</span>  <span class="c1"># alternatively, &quot;make test&quot; does the same</span>
+</pre></div>
+</div>
+<p>You can also use <code class="docutils literal"><span class="pre">tox</span></code> to setup a clean and disposable environment:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>tox -e py3.4  <span class="c1"># Runs tests with Python 3.4</span>
+</pre></div>
+</div>
+<p>To run Python tests for all environments, lint and documentation tests, use simply <code class="docutils literal"><span class="pre">tox</span></code>. This simulates what our CI also does.</p>
+<p>To run Python linting tests (pep8 and static code analysis), use <code class="docutils literal"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">lint</span></code> or
+<code class="docutils literal"><span class="pre">make</span> <span class="pre">lint</span></code>.</p>
+<p>Note that tox, by default, reuses its environment when it is run again. If you add anything to the requirements, you will want to either delete the <cite>.tox</cite> directory, or run <code class="docutils literal"><span class="pre">tox</span></code> with the <code class="docutils literal"><span class="pre">-r</span></code> argument to recreate the environment.</p>
+<p>We strive for 100% code coverage in Kolibri. When you open a Pull Request, code coverage (and your impact on coverage) will be reported. To test code coverage locally, so that you can work to improve it, you can run the following:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>tox -e py3.4
+coverage html
+</pre></div>
+</div>
+<p>Then, open the generated ./htmlcov/index.html file in your browser.</p>
+<p>Kolibri comes with a Javascript test suite based on <code class="docutils literal"><span class="pre">mocha</span></code>. To run all tests:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>npm <span class="nb">test</span>
+</pre></div>
+</div>
+<p>This includes tests of the bundling functions that are used in creating front end assets. To do continuous unit testing for code, and jshint running:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>npm run test-karma:watch
+</pre></div>
+</div>
+<p>Alternatively, this can be run as a subprocess in the development server with the following flag:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>kolibri manage devserver --debug -- --karma
+</pre></div>
+</div>
+<p>You can also run tests through Django&#8217;s <code class="docutils literal"><span class="pre">test</span></code> management command, accessed through the <code class="docutils literal"><span class="pre">kolibri</span></code> command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>kolibri manage <span class="nb">test</span>
+</pre></div>
+</div>
+<p>To run specific tests only, you can add <code class="docutils literal"><span class="pre">--</span></code>, followed by a label (consisting of the import path to the test(s) you want to run, possibly ending in some subset of a filename, classname, and method name). For example, the following will run only one test, named <code class="docutils literal"><span class="pre">test_admin_can_delete_membership</span></code> in the <code class="docutils literal"><span class="pre">MembershipPermissionsTestCase</span></code> class in kolibri/auth/test/test_permissions.py:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>kolibri manage <span class="nb">test</span> -- kolibri.auth.test.test_permissions.MembershipPermissionsTestCase.test_admin_can_delete_membership
+</pre></div>
+</div>
+</div>
+<div class="section" id="documentation-editing">
+<h3>Documentation Editing<a class="headerlink" href="#documentation-editing" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>To make changes to documentation, make an edit and then run:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make docs
+</pre></div>
+</div>
+<p>You can also <code class="docutils literal"><span class="pre">cd</span></code> into the docs directory and run the auto-build for faster editing:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> docs
+sphinx-autobuild . _build
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tests.html" class="btn btn-neutral float-right" title="Tests" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Developer Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

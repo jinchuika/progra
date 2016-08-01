@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tech Stack &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../index.html"/>
+        <link rel="up" title="Developer Guide" href="index.html"/>
+        <link rel="next" title="Plugins" href="plugins.html"/>
+        <link rel="prev" title="Tests" href="tests.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#architecture">Architecture</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Tech Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#server">Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#client">Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#internationalization">Internationalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#developer-docs">Developer Docs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-infrastructure">Build Infrastructure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helper-scripts">Helper Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building.html">Distribution and installers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uap.html">Users, Authentication, and Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html">Front-end Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asset_loading.html">Front-end Asset Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html">Project Conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Tech Stack</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/stack.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tech-stack">
+<h1>Tech Stack<a class="headerlink" href="#tech-stack" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Kolibri is a web application built primarily using <a class="reference external" href="https://www.python.org/">Python</a> on the server-side and <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference">JavaScript</a> on the client-side.</p>
+<p>We use many run-time, development, and build-related technologies and tools, as outlined below.</p>
+<div class="section" id="server">
+<h2>Server<a class="headerlink" href="#server" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>The server is a <a class="reference external" href="https://docs.djangoproject.com/en/1.9/">Django 1.9</a> application, and contains only pure-Python (2.7+) libraries dependencies at run-time.</p>
+<p>The server is responsible for:</p>
+<ul class="simple">
+<li>Interfacing with the database (<a class="reference external" href="https://www.postgresql.org/">PostgreSQL</a>) containing user, content, and language pack data</li>
+<li>Authentication and permission middleware</li>
+<li>Routing and handling of API calls, using the <a class="reference external" href="http://www.django-rest-framework.org/">Django REST Framework</a></li>
+<li>Basic top-level URL routing between high-level sections of the application</li>
+<li>Serving basic HTML wrappers for the UI with data bootstrapped into the page</li>
+<li>Serving additional client assets such as fonts and images</li>
+</ul>
+<p><em>TODO - how does Morango fit into this picture? Logging?</em></p>
+</div>
+<div class="section" id="client">
+<h2>Client<a class="headerlink" href="#client" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>The front-end user interface is built using HTML, the <a class="reference external" href="http://stylus-lang.com/">Stylus</a> CSS-preprocessing language, and the <a class="reference external" href="https://babeljs.io/docs/plugins/preset-es2015/">ES2015 preset features of ES6</a> JavaScript.</p>
+<p>The frontend targets IE9 and up, with an emphasis on tablet-size screens. We strive to use accessible, semantic HTML with support for screen readers, keyboard interaction, and right-to-left language support.</p>
+<p>The client is responsible for:</p>
+<ul class="simple">
+<li>Compositing and rendering the UI using <a class="reference external" href="https://vuejs.org/">Vue.js</a> components to build nested views</li>
+<li>Managing client-side state using <a class="reference external" href="http://vuex.vuejs.org/en/index.html">Vuex</a></li>
+<li>Interacting with the server through HTTP requests</li>
+</ul>
+<p>Additionally, <a class="reference external" href="http://pimterry.github.io/loglevel/">loglevel</a> is used for logging and <a class="reference external" href="https://necolas.github.io/normalize.css/">normalize.css</a> is included for browser style normalization.</p>
+</div>
+<div class="section" id="internationalization">
+<h2>Internationalization<a class="headerlink" href="#internationalization" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>We leverage the <a class="reference external" href="http://userguide.icu-project.org/formatparse/messages">ICU Message</a> syntax for formatting all user-facing text.</p>
+<p>On the client-side, these strings are rendered using <a class="reference external" href="http://formatjs.io/">Format.js</a> and integrated with Vue.js using <a class="reference external" href="https://github.com/learningequality/vue-intl">vue-intl</a>.</p>
+<p><em>TODO: server-side, message extraction, translation</em></p>
+</div>
+<div class="section" id="developer-docs">
+<h2>Developer Docs<a class="headerlink" href="#developer-docs" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Documentation for Kolibri developers are formatted using <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> and the output is generated using <a class="reference external" href="http://www.sphinx-doc.org/en/stable/rest.html">Sphinx</a>. Most of the content is in the <code class="docutils literal"><span class="pre">/docs</span></code> directory, but some content is also extracted from Python source code and from files in the root directory. We use <a class="reference external" href="http://kolibri.readthedocs.io/en/latest/">Read the Docs</a> to host a public version of our documentation.</p>
+<p>Additionally, information about the design and implementation of Kolibri might be found on Google Drive, Trello, Slack, InVision, mailing lists, office whiteboards, and lurking in the fragmented collective consciousness of our contributors.</p>
+</div>
+<div class="section" id="build-infrastructure">
+<h2>Build Infrastructure<a class="headerlink" href="#build-infrastructure" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="client-side-resources">
+<h3>Client-side Resources<a class="headerlink" href="#client-side-resources" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>We use a combination of both <a class="reference external" href="https://nodejs.org/en/">Node.js</a> and Python scripts to transform our source code as-written to the code that is run in a browser. This process involves <a class="reference external" href="https://webpack.github.io/">webpack</a>, plus a number of both custom and third-party extensions.</p>
+<p>Preparation of client-side resources involves:</p>
+<ul class="simple">
+<li>ES6 to ES5</li>
+<li>Transforming Vue.js component files (*.vue) into JS and CSS</li>
+<li>Stylus to CSS</li>
+<li>Auto-prefixing CSS</li>
+<li>Bundling multiple JS dependencies into single files</li>
+<li>Minifying and compressing code</li>
+<li>Bundle resources such as fonts and images</li>
+<li>Generating source maps</li>
+<li>Providing mechanisms for decoupled &#8220;Kolibri plugins&#8221; to interact with each other and asynchronously load dependencies</li>
+<li>Linting to enforce code styles</li>
+</ul>
+</div>
+<div class="section" id="server-setup">
+<h3>Server Setup<a class="headerlink" href="#server-setup" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>The standard <a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/django-admin/">Django manage.py commands</a> are used under-the-hood for database migration and user set-up.</p>
+<p><em>TODO: is this accurate?</em></p>
+</div>
+<div class="section" id="installers-and-packages">
+<h3>Installers and Packages<a class="headerlink" href="#installers-and-packages" title="Enlazar permanentemente con este título">¶</a></h3>
+<p><em>TODO: introduce stack (sdist, PyPi, Debian, Windows, etc)</em></p>
+</div>
+<div class="section" id="continuous-integration">
+<h3>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Enlazar permanentemente con este título">¶</a></h3>
+<p><em>TODO: introduce stack (GitHub, CodeCov, Travis, commit hooks)</em></p>
+</div>
+<div class="section" id="tests-and-linting">
+<h3>Tests and Linting<a class="headerlink" href="#tests-and-linting" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>We use a number of mechanisms to help encourage code quality and consistency. These checks enforce a subset of our <a class="reference internal" href="conventions.html"><span class="doc">Project Conventions</span></a>.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://pre-commit.com/">pre-commit</a> is run locally on <code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span></code> and enforces some Python conventions</li>
+<li>We use <a class="reference external" href="http://editorconfig.org/">EditorConfig</a> to help developers set their editor preferences</li>
+<li><a class="reference external" href="https://flake8.readthedocs.io/en/latest/">flake8</a> is also used to enforce Python conventions</li>
+<li><a class="reference external" href="https://tox.readthedocs.io/en/latest/">tox</a> is used to run our test suites under a range of Python and Node environment versions</li>
+<li><code class="docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">linkcheck</span></code> checks the validity of documentation links</li>
+<li><a class="reference external" href="http://pytest.org/latest/">pytest</a> runs our Python unit tests. We also leverage the <a class="reference external" href="https://docs.djangoproject.com/en/1.9/topics/testing/">Django test framework</a>.</li>
+<li>In addition to building client assets, <a class="reference external" href="https://webpack.github.io/">webpack</a> runs linters on client-side code: <a class="reference external" href="http://eslint.org/">ESLint</a> for ES6 JavaScript, <a class="reference external" href="https://rosspatton.github.io/stylint/">Stylint</a> for Stylus, and <a class="reference external" href="http://htmlhint.com/">HTMLHint</a> for HTML and Vue.js components.</li>
+<li>Client-side code is tested using a stack of tools including <a class="reference external" href="https://karma-runner.github.io/0.13/index.html">Karma</a>, <a class="reference external" href="https://mochajs.org/">Mocha</a>, <a class="reference external" href="http://phantomjs.org/">PhantomJS</a>, <a class="reference external" href="http://sinonjs.org/">Sinon</a>, and <a class="reference external" href="https://github.com/jhnns/rewire">rewire</a>. <em>TODO: Explain what each of these do</em></li>
+<li><a class="reference external" href="https://codecov.io/">codecov</a> reports on the test coverage for Python and Node.js code. <em>TODO - also client-side?</em></li>
+</ul>
+</div>
+</div>
+<div class="section" id="helper-scripts">
+<h2>Helper Scripts<a class="headerlink" href="#helper-scripts" title="Enlazar permanentemente con este título">¶</a></h2>
+<p><em>TODO: introduce stack (kolibri command, setup.py, makefiles, npm commands, sphinx auto-build, etc)</em></p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="plugins.html" class="btn btn-neutral float-right" title="Plugins" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tests.html" class="btn btn-neutral" title="Tests" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

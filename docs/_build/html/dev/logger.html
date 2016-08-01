@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>User Logs &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../index.html"/>
+        <link rel="next" title="Concepts and Definitions" href="logger/concepts_and_definitions.html"/>
+        <link rel="prev" title="Glossary" href="glossary.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Developer Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Logs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="logger/concepts_and_definitions.html">Concepts and Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logger/implementations.html">Implementation Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#models">Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>User Logs</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/logger.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="user-logs">
+<h1>User Logs<a class="headerlink" href="#user-logs" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>This is a core module found in <code class="docutils literal"><span class="pre">kolibri/logger</span></code>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logger/concepts_and_definitions.html">Concepts and Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logger/implementations.html">Implementation Details</a></li>
+</ul>
+</div>
+<div class="section" id="models">
+<h2>Models<a class="headerlink" href="#models" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>This app is intended to provide the core functionality for tracking user
+engagement with content and Kolibri in general. As such, it is intended
+to store details of user interactions with content, a summary of those
+interactions, interactions with the software in general, as well as user
+feedback on the content and the software.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.logger.models.</code><code class="descname">ContentInteractionLog</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/logger/models.html#ContentInteractionLog"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>This model provides a record of an interaction with a content item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>user_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; User</li>
+<li><strong>content_id</strong> (<em>UUIDField</em>) &#8211; Content id</li>
+<li><strong>channel_id</strong> (<em>UUIDField</em>) &#8211; Channel id</li>
+<li><strong>start_timestamp</strong> (<em>DateTimeField</em>) &#8211; Start timestamp</li>
+<li><strong>completion_timestamp</strong> (<em>DateTimeField</em>) &#8211; Completion timestamp</li>
+<li><strong>item_session</strong> (<em>UUIDField</em>) &#8211; Item session</li>
+<li><strong>kind</strong> (<em>CharField</em>) &#8211; Kind</li>
+<li><strong>extra_fields</strong> (<em>TextField</em>) &#8211; Extra fields</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.logger.models.</code><code class="descname">ContentRatingLog</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/logger/models.html#ContentRatingLog"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>This model provides a record of user feedback on a content item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>user_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; User</li>
+<li><strong>content_id</strong> (<em>UUIDField</em>) &#8211; Content id</li>
+<li><strong>channel_id</strong> (<em>UUIDField</em>) &#8211; Channel id</li>
+<li><strong>quality</strong> (<em>IntegerField</em>) &#8211; Quality</li>
+<li><strong>ease</strong> (<em>IntegerField</em>) &#8211; Ease</li>
+<li><strong>learning</strong> (<em>IntegerField</em>) &#8211; Learning</li>
+<li><strong>feedback</strong> (<em>TextField</em>) &#8211; Feedback</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.logger.models.</code><code class="descname">ContentSummaryLog</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/logger/models.html#ContentSummaryLog"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>This model provides a summary of all interactions of a user with a content item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>user_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; User</li>
+<li><strong>content_id</strong> (<em>UUIDField</em>) &#8211; Content id</li>
+<li><strong>channel_id</strong> (<em>UUIDField</em>) &#8211; Channel id</li>
+<li><strong>start_timestamp</strong> (<em>DateTimeField</em>) &#8211; Start timestamp</li>
+<li><strong>last_activity_timestamp</strong> (<em>DateTimeField</em>) &#8211; Last activity timestamp</li>
+<li><strong>completion_timestamp</strong> (<em>DateTimeField</em>) &#8211; Completion timestamp</li>
+<li><strong>progress</strong> (<em>DecimalField</em>) &#8211; Progress</li>
+<li><strong>kind</strong> (<em>CharField</em>) &#8211; Kind</li>
+<li><strong>extra_fields</strong> (<em>TextField</em>) &#8211; Extra fields</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.logger.models.</code><code class="descname">UserSessionLog</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/logger/models.html#UserSessionLog"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>This model provides a record of a user session in Kolibri.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>user_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; User</li>
+<li><strong>channels</strong> (<em>TextField</em>) &#8211; Channels</li>
+<li><strong>start_timestamp</strong> (<em>DateTimeField</em>) &#8211; Start timestamp</li>
+<li><strong>completion_timestamp</strong> (<em>DateTimeField</em>) &#8211; Completion timestamp</li>
+<li><strong>pages</strong> (<em>TextField</em>) &#8211; Pages</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="logger/concepts_and_definitions.html" class="btn btn-neutral float-right" title="Concepts and Definitions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="glossary.html" class="btn btn-neutral" title="Glossary" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

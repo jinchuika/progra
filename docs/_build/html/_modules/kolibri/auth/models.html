@@ -1,0 +1,1161 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>kolibri.auth.models &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../../../index.html"/>
+        <link rel="up" title="Código de módulo" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Código de módulo</a> &raquo;</li>
+      
+    <li>kolibri.auth.models</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fuente para kolibri.auth.models</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">We have four main abstractions: Users, Collections, Memberships, and Roles.</span>
+
+<span class="sd">Users represent people, like students in a school, teachers for a classroom, or volunteers setting up informal</span>
+<span class="sd">installations. There are two main user types, ``FacilityUser`` and ``DeviceOwner``. A ``FacilityUser`` belongs to a</span>
+<span class="sd">particular facility, and has permissions only with respect to other data that is associated with that facility. A</span>
+<span class="sd">``DeviceOwner`` is not associated with a particular facility, and has global permissions for data on the local device.</span>
+<span class="sd">``FacilityUser`` accounts (like other facility data) may be synced across multiple devices, whereas a DeviceOwner account</span>
+<span class="sd">is specific to a single installation of Kolibri.</span>
+
+<span class="sd">Collections form a hierarchy, with Collections able to belong to other Collections. Collections are subdivided</span>
+<span class="sd">into several pre-defined levels (``Facility`` &gt; ``Classroom`` &gt; ``LearnerGroup``).</span>
+
+<span class="sd">A ``FacilityUser`` (but not a ``DeviceOwner``) can be marked as a member of a ``Collection`` through a ``Membership``</span>
+<span class="sd">object. Being a member of a Collection also means being a member of all the Collections above that Collection in the</span>
+<span class="sd">hierarchy.</span>
+
+<span class="sd">Another way in which a ``FacilityUser`` can be associated with a particular ``Collection`` is through a ``Role``</span>
+<span class="sd">object, which grants the user a role with respect to the ``Collection`` and all the collections below it. A ``Role``</span>
+<span class="sd">object also stores the &quot;kind&quot; of the role (currently, one of &quot;admin&quot; or &quot;coach&quot;), which affects what permissions the</span>
+<span class="sd">user gains through the ``Role``.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="kn">import</span> <span class="nn">logging</span> <span class="k">as</span> <span class="nn">logger</span>
+
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">AbstractBaseUser</span><span class="p">,</span> <span class="n">AnonymousUser</span>
+<span class="kn">from</span> <span class="nn">django.core</span> <span class="k">import</span> <span class="n">validators</span>
+<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="k">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.db.models.query</span> <span class="k">import</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">django.db.utils</span> <span class="k">import</span> <span class="n">IntegrityError</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="k">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">django.utils.encoding</span> <span class="k">import</span> <span class="n">python_2_unicode_compatible</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">kolibri.core.errors</span> <span class="k">import</span> <span class="n">KolibriValidationError</span>
+<span class="kn">from</span> <span class="nn">mptt.models</span> <span class="k">import</span> <span class="n">MPTTModel</span><span class="p">,</span> <span class="n">TreeForeignKey</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">string_types</span>
+
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="k">import</span> <span class="n">collection_kinds</span><span class="p">,</span> <span class="n">role_kinds</span>
+<span class="kn">from</span> <span class="nn">.errors</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">InvalidRoleKind</span><span class="p">,</span> <span class="n">UserDoesNotHaveRoleError</span><span class="p">,</span> <span class="n">UserHasRoleOnlyIndirectlyThroughHierarchyError</span><span class="p">,</span> <span class="n">UserIsMemberOnlyIndirectlyThroughHierarchyError</span><span class="p">,</span>
+    <span class="n">UserIsNotFacilityUser</span><span class="p">,</span> <span class="n">UserIsNotMemberError</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.filters</span> <span class="k">import</span> <span class="n">HierarchyRelationsFilter</span>
+<span class="kn">from</span> <span class="nn">.permissions.auth</span> <span class="k">import</span> <span class="n">CollectionSpecificRoleBasedPermissions</span>
+<span class="kn">from</span> <span class="nn">.permissions.base</span> <span class="k">import</span> <span class="n">BasePermissions</span><span class="p">,</span> <span class="n">RoleBasedPermissions</span>
+<span class="kn">from</span> <span class="nn">.permissions.general</span> <span class="k">import</span> <span class="n">IsAdminForOwnFacility</span><span class="p">,</span> <span class="n">IsFromSameFacility</span><span class="p">,</span> <span class="n">IsOwn</span><span class="p">,</span> <span class="n">IsSelf</span>
+
+<span class="n">logging</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_has_permissions_class</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;permissions&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">permissions</span><span class="p">,</span> <span class="n">BasePermissions</span><span class="p">)</span>
+
+
+<span class="nd">@python_2_unicode_compatible</span>
+<div class="viewcode-block" id="FacilityDataset"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.FacilityDataset">[documentos]</a><span class="k">class</span> <span class="nc">FacilityDataset</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ``FacilityDataset`` stores high-level metadata and settings for a particular ``Facility``. It is also the</span>
+<span class="sd">    model that all models storing facility data (data that is associated with a particular facility, and that inherits</span>
+<span class="sd">    from ``AbstractFacilityDataModel``) foreign key onto, to indicate that they belong to this particular ``Facility``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">allow_signups</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">facilities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">collection_kinds</span><span class="o">.</span><span class="n">FACILITY</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">facilities</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;FacilityDataset for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Facility</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">facilities</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;FacilityDataset (no associated Facility)&quot;</span></div>
+
+<div class="viewcode-block" id="AbstractFacilityDataModel"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.AbstractFacilityDataModel">[documentos]</a><span class="k">class</span> <span class="nc">AbstractFacilityDataModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base model for Kolibri &quot;Facility Data&quot;, which is data that is specific to a particular ``Facility``,</span>
+<span class="sd">    such as ``FacilityUsers``, ``Collections``, and other data associated with those users and collections.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;FacilityDataset&quot;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">clean_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># ensure that we have, or can infer, a dataset for the model instance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensure_dataset</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AbstractFacilityDataModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">clean_fields</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># before saving, ensure we have a dataset, and convert any validation errors into integrity errors,</span>
+        <span class="c1"># since by this point the `clean_fields` method should already have prevented this situation from arising</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ensure_dataset</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">KolibriValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IntegrityError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">AbstractFacilityDataModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AbstractFacilityDataModel.ensure_dataset"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.AbstractFacilityDataModel.ensure_dataset">[documentos]</a>    <span class="k">def</span> <span class="nf">ensure_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If no dataset has yet been specified, try to infer it. If a dataset has already been specified, to prevent</span>
+<span class="sd">        inconsistencies, make sure it matches the inferred dataset, otherwise raise a ``KolibriValidationError``.</span>
+<span class="sd">        If we have no dataset and it can&#39;t be inferred, we raise a ``KolibriValidationError`` exception as well.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inferred_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">infer_dataset</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_id</span><span class="p">:</span>
+            <span class="c1"># make sure currently stored dataset matches inferred dataset, if any</span>
+            <span class="k">if</span> <span class="n">inferred_dataset</span> <span class="ow">and</span> <span class="n">inferred_dataset</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">KolibriValidationError</span><span class="p">(</span><span class="s2">&quot;This model is not associated with the correct FacilityDataset.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># use the inferred dataset, if there is one, otherwise throw an error</span>
+            <span class="k">if</span> <span class="n">inferred_dataset</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">inferred_dataset</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">KolibriValidationError</span><span class="p">(</span><span class="s2">&quot;FacilityDataset (&#39;dataset&#39;) not provided, and could not be inferred.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractFacilityDataModel.infer_dataset"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.AbstractFacilityDataModel.infer_dataset">[documentos]</a>    <span class="k">def</span> <span class="nf">infer_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is used by `ensure_dataset` to &quot;infer&quot; which dataset should be associated with this instance.</span>
+<span class="sd">        It should be overridden in any subclass of ``AbstractFacilityDataModel``, to define a model-specific inference.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of AbstractFacilityDataModel must override the `infer_dataset` method.&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser">[documentos]</a><span class="k">class</span> <span class="nc">KolibriAbstractBaseUser</span><span class="p">(</span><span class="n">AbstractBaseUser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Our custom user type, derived from ``AbstractBaseUser`` as described in the Django docs.</span>
+<span class="sd">    Draws liberally from ``django.contrib.auth.AbstractUser``, except we exclude some fields</span>
+<span class="sd">    we don&#39;t care about, like email.</span>
+
+<span class="sd">    This model is an abstract model, and is inherited by both ``FacilityUser`` and ``DeviceOwner``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">USERNAME_FIELD</span> <span class="o">=</span> <span class="s2">&quot;username&quot;</span>
+
+    <span class="n">username</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">_</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">),</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Required. 30 characters or fewer. Letters and digits only.&#39;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">validators</span><span class="o">.</span><span class="n">RegexValidator</span><span class="p">(</span>
+                <span class="s1">r&#39;^\w+$&#39;</span><span class="p">,</span>
+                <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Enter a valid username. This value may contain only letters and numbers.&#39;</span><span class="p">)</span>
+            <span class="p">),</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;first name&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;last name&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">date_joined</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;date joined&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_short_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.is_member_of"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.is_member_of">[documentos]</a>    <span class="k">def</span> <span class="nf">is_member_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine whether this user is a member of the specified ``Collection``.</span>
+
+<span class="sd">        :param coll: The ``Collection`` for which we are checking this user&#39;s membership.</span>
+<span class="sd">        :return: ``True`` if this user is a member of the specified ``Collection``, otherwise False.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `is_member_of` method.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.get_roles_for_user"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.get_roles_for_user">[documentos]</a>    <span class="k">def</span> <span class="nf">get_roles_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine all the roles this user has in relation to the target user, and return a set containing the kinds of roles.</span>
+
+<span class="sd">        :param user: The target user for which this user has the roles.</span>
+<span class="sd">        :return: The kinds of roles this user has with respect to the target user.</span>
+<span class="sd">        :rtype: set of ``kolibri.auth.constants.role_kinds.*`` strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `get_roles_for_user` method.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.get_roles_for_collection"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.get_roles_for_collection">[documentos]</a>    <span class="k">def</span> <span class="nf">get_roles_for_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine all the roles this user has in relation to the specified ``Collection``, and return a set containing the kinds of roles.</span>
+
+<span class="sd">        :param coll: The target ``Collection`` for which this user has the roles.</span>
+<span class="sd">        :return: The kinds of roles this user has with respect to the specified ``Collection``.</span>
+<span class="sd">        :rtype: set of ``kolibri.auth.constants.role_kinds.*`` strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `get_roles_for_collection` method.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.has_role_for_user"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.has_role_for_user">[documentos]</a>    <span class="k">def</span> <span class="nf">has_role_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine whether this user has (at least one of) the specified role kind(s) in relation to the specified user.</span>
+
+<span class="sd">        :param user: The user that is the target of the role (for which this user has the roles).</span>
+<span class="sd">        :param kinds: The kind (or kinds) of role to check for, as a string or iterable.</span>
+<span class="sd">        :type kinds: string from ``kolibri.auth.constants.role_kinds.*``</span>
+<span class="sd">        :return: ``True`` if this user has the specified role kind with respect to the target user, otherwise ``False``.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `has_role_for_user` method.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.has_role_for_collection"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.has_role_for_collection">[documentos]</a>    <span class="k">def</span> <span class="nf">has_role_for_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine whether this user has (at least one of) the specified role kind(s) in relation to the specified ``Collection``.</span>
+
+<span class="sd">        :param kinds: The kind (or kinds) of role to check for, as a string or iterable.</span>
+<span class="sd">        :type kinds: string from kolibri.auth.constants.role_kinds.*</span>
+<span class="sd">        :param coll: The target ``Collection`` for which this user has the roles.</span>
+<span class="sd">        :return: ``True`` if this user has the specified role kind with respect to the target ``Collection``, otherwise ``False``.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `has_role_for_collection` method.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.can_create_instance"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.can_create_instance">[documentos]</a>    <span class="k">def</span> <span class="nf">can_create_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether this user (self) has permission to create a particular model instance (obj).</span>
+
+<span class="sd">        This method should be overridden by classes that inherit from ``KolibriAbstractBaseUser``.</span>
+
+<span class="sd">        In general, unless an instance has already been initialized, this method should not be called directly;</span>
+<span class="sd">        instead, it should be preferred to call ``can_create``.</span>
+
+<span class="sd">        :param obj: An (unsaved) instance of a Django model, to check permissions for.</span>
+<span class="sd">        :return: ``True`` if this user should have permission to create the object, otherwise ``False``.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `can_create_instance` method.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.can_create"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.can_create">[documentos]</a>    <span class="k">def</span> <span class="nf">can_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Model</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether this user (self) has permission to create an instance of Model with the specified attributes (data).</span>
+
+<span class="sd">        This method defers to the ``can_create_instance`` method, and in most cases should not itself be overridden.</span>
+
+<span class="sd">        :param Model: A subclass of ``django.db.models.Model``</span>
+<span class="sd">        :param data: A ``dict`` of data to be used in creating an instance of the Model</span>
+<span class="sd">        :return: ``True`` if this user should have permission to create an instance of Model with the specified data, else ``False``.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">instance</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">full_clean</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;TypeError while validating model before checking permissions: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># if the data provided does not fit the Model, don&#39;t continue checking</span>
+        <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;ValidationError while validating model before checking permissions: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># if the data does not validate, don&#39;t continue checking</span>
+        <span class="c1"># now that we have an instance, defer to the permission-checking method that works with instances</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">can_create_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.can_read"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.can_read">[documentos]</a>    <span class="k">def</span> <span class="nf">can_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether this user (self) has permission to read a particular model instance (obj).</span>
+
+<span class="sd">        This method should be overridden by classes that inherit from ``KolibriAbstractBaseUser``.</span>
+
+<span class="sd">        :param obj: An instance of a Django model, to check permissions for.</span>
+<span class="sd">        :return: ``True`` if this user should have permission to read the object, otherwise ``False``.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `can_read` method.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.can_update"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.can_update">[documentos]</a>    <span class="k">def</span> <span class="nf">can_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether this user (self) has permission to update a particular model instance (obj).</span>
+
+<span class="sd">        This method should be overridden by classes that inherit from KolibriAbstractBaseUser.</span>
+
+<span class="sd">        :param obj: An instance of a Django model, to check permissions for.</span>
+<span class="sd">        :return: ``True`` if this user should have permission to update the object, otherwise ``False``.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `can_update` method.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.can_delete"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.can_delete">[documentos]</a>    <span class="k">def</span> <span class="nf">can_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether this user (self) has permission to delete a particular model instance (obj).</span>
+
+<span class="sd">        This method should be overridden by classes that inherit from KolibriAbstractBaseUser.</span>
+
+<span class="sd">        :param obj: An instance of a Django model, to check permissions for.</span>
+<span class="sd">        :return: ``True`` if this user should have permission to delete the object, otherwise ``False``.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `can_delete` method.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.get_roles_for"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.get_roles_for">[documentos]</a>    <span class="k">def</span> <span class="nf">get_roles_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function that defers to ``get_roles_for_user`` or ``get_roles_for_collection`` based on the type of object passed in.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">KolibriAbstractBaseUser</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_roles_for_user</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Collection</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_roles_for_collection</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The `obj` argument to `get_roles_for` must be either an instance of KolibriAbstractBaseUser or Collection.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.has_role_for"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.has_role_for">[documentos]</a>    <span class="k">def</span> <span class="nf">has_role_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function that defers to ``has_role_for_user`` or ``has_role_for_collection`` based on the type of object passed in.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">KolibriAbstractBaseUser</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_role_for_user</span><span class="p">(</span><span class="n">kinds</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Collection</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_role_for_collection</span><span class="p">(</span><span class="n">kinds</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The `obj` argument to `has_role_for` must be either an instance of KolibriAbstractBaseUser or Collection.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KolibriAbstractBaseUser.filter_readable"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAbstractBaseUser.filter_readable">[documentos]</a>    <span class="k">def</span> <span class="nf">filter_readable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filters a queryset down to only the elements that this user should have permission to read.</span>
+
+<span class="sd">        :param queryset: A ``QuerySet`` instance that the filtering should be applied to.</span>
+<span class="sd">        :return: Filtered ``QuerySet`` including only elements that are readable by this user.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses of KolibriAbstractBaseUser must override the `can_delete` method.&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="KolibriAnonymousUser"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.KolibriAnonymousUser">[documentos]</a><span class="k">class</span> <span class="nc">KolibriAnonymousUser</span><span class="p">(</span><span class="n">AnonymousUser</span><span class="p">,</span> <span class="n">KolibriAbstractBaseUser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom anonymous user that also exposes the same interface as KolibriAbstractBaseUser, for consistency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">is_member_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">get_roles_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([])</span>
+
+    <span class="k">def</span> <span class="nf">get_roles_for_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([])</span>
+
+    <span class="k">def</span> <span class="nf">has_role_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">has_role_for_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">can_create_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># check the object permissions, if available, just in case permissions are granted to anon users</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">user_can_create_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">can_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># check the object permissions, if available, just in case permissions are granted to anon users</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">user_can_read_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">can_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># check the object permissions, if available, just in case permissions are granted to anon users</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">user_can_update_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">can_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># check the object permissions, if available, just in case permissions are granted to anon users</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">user_can_delete_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">filter_readable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">):</span>
+        <span class="c1"># check the object permissions, if available, just in case permissions are granted to anon users</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">queryset</span><span class="o">.</span><span class="n">model</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">readable_by_user_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">none</span><span class="p">()</span></div>
+
+
+<span class="nd">@python_2_unicode_compatible</span>
+<div class="viewcode-block" id="FacilityUser"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.FacilityUser">[documentos]</a><span class="k">class</span> <span class="nc">FacilityUser</span><span class="p">(</span><span class="n">KolibriAbstractBaseUser</span><span class="p">,</span> <span class="n">AbstractFacilityDataModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ``FacilityUser`` is the fundamental object of the auth app. These users represent the main users, and can be associated</span>
+<span class="sd">    with a hierarchy of ``Collections`` through ``Memberships`` and ``Roles``, which then serve to help determine permissions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">permissions</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">IsSelf</span><span class="p">()</span> <span class="o">|</span>  <span class="c1"># FacilityUser can be read and written by itself</span>
+        <span class="n">IsAdminForOwnFacility</span><span class="p">()</span> <span class="o">|</span>  <span class="c1"># FacilityUser can be read and written by a facility admin</span>
+        <span class="n">RoleBasedPermissions</span><span class="p">(</span>  <span class="c1"># FacilityUser can be read by admin or coach, and updated by admin, but not created/deleted by non-facility admin</span>
+            <span class="n">target_field</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+            <span class="n">can_be_created_by</span><span class="o">=</span><span class="p">(),</span>  <span class="c1"># we can&#39;t check creation permissions by role, as user doesn&#39;t exist yet</span>
+            <span class="n">can_be_read_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">COACH</span><span class="p">),</span>
+            <span class="n">can_be_updated_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,),</span>
+            <span class="n">can_be_deleted_by</span><span class="o">=</span><span class="p">(),</span>  <span class="c1"># don&#39;t want a classroom admin deleting a user completely, just removing them from the class</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">facility</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;Facility&quot;</span><span class="p">)</span>
+
+    <span class="c1"># FacilityUsers can&#39;t access the Django admin interface</span>
+    <span class="n">is_staff</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">is_superuser</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">unique_together</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;username&quot;</span><span class="p">,</span> <span class="s2">&quot;facility&quot;</span><span class="p">),)</span>
+
+    <span class="k">def</span> <span class="nf">infer_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">facility</span><span class="o">.</span><span class="n">dataset</span>
+
+    <span class="k">def</span> <span class="nf">is_member_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">!=</span> <span class="n">coll</span><span class="o">.</span><span class="n">dataset_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">coll</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">collection_kinds</span><span class="o">.</span><span class="n">FACILITY</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># FacilityUser is always a member of her own facility</span>
+        <span class="k">return</span> <span class="n">HierarchyRelationsFilter</span><span class="p">(</span><span class="n">FacilityUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">())</span><span class="o">.</span><span class="n">filter_by_hierarchy</span><span class="p">(</span>
+            <span class="n">target_user</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">),</span>
+            <span class="n">ancestor_collection</span><span class="o">=</span><span class="n">coll</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_roles_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;dataset_id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">!=</span> <span class="n">user</span><span class="o">.</span><span class="n">dataset_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">set</span><span class="p">([])</span>
+        <span class="n">role_instances</span> <span class="o">=</span> <span class="n">HierarchyRelationsFilter</span><span class="p">(</span><span class="n">Role</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by_hierarchy</span><span class="p">(</span>
+            <span class="n">ancestor_collection</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;collection&quot;</span><span class="p">),</span>
+            <span class="n">source_user</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">),</span>
+            <span class="n">target_user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">instance</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">instance</span> <span class="ow">in</span> <span class="n">role_instances</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()])</span>
+
+    <span class="k">def</span> <span class="nf">get_roles_for_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">!=</span> <span class="n">coll</span><span class="o">.</span><span class="n">dataset_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">set</span><span class="p">([])</span>
+        <span class="n">role_instances</span> <span class="o">=</span> <span class="n">HierarchyRelationsFilter</span><span class="p">(</span><span class="n">Role</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by_hierarchy</span><span class="p">(</span>
+            <span class="n">ancestor_collection</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;collection&quot;</span><span class="p">),</span>
+            <span class="n">source_user</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">),</span>
+            <span class="n">descendant_collection</span><span class="o">=</span><span class="n">coll</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">instance</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">instance</span> <span class="ow">in</span> <span class="n">role_instances</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()])</span>
+
+    <span class="k">def</span> <span class="nf">has_role_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kinds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;dataset_id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">!=</span> <span class="n">user</span><span class="o">.</span><span class="n">dataset_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">HierarchyRelationsFilter</span><span class="p">(</span><span class="n">Role</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by_hierarchy</span><span class="p">(</span>
+            <span class="n">ancestor_collection</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;collection&quot;</span><span class="p">),</span>
+            <span class="n">source_user</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">),</span>
+            <span class="n">role_kind</span><span class="o">=</span><span class="n">kinds</span><span class="p">,</span>
+            <span class="n">target_user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">has_role_for_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kinds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">!=</span> <span class="n">coll</span><span class="o">.</span><span class="n">dataset_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">HierarchyRelationsFilter</span><span class="p">(</span><span class="n">Role</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by_hierarchy</span><span class="p">(</span>
+            <span class="n">ancestor_collection</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;collection&quot;</span><span class="p">),</span>
+            <span class="n">source_user</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">),</span>
+            <span class="n">role_kind</span><span class="o">=</span><span class="n">kinds</span><span class="p">,</span>
+            <span class="n">descendant_collection</span><span class="o">=</span><span class="n">coll</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">can_create_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># a FacilityUser&#39;s permissions are determined through the object&#39;s permission class</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">user_can_create_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">can_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># a FacilityUser&#39;s permissions are determined through the object&#39;s permission class</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">user_can_read_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">can_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># a FacilityUser&#39;s permissions are determined through the object&#39;s permission class</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">user_can_update_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">can_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># a FacilityUser&#39;s permissions are determined through the object&#39;s permission class</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">user_can_delete_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">filter_readable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">_has_permissions_class</span><span class="p">(</span><span class="n">queryset</span><span class="o">.</span><span class="n">model</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">permissions</span><span class="o">.</span><span class="n">readable_by_user_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">none</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&quot;</span><span class="si">{user}</span><span class="s1">&quot;@&quot;</span><span class="si">{facility}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_full_name</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">facility</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">facility</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">DeviceOwnerManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">create_superuser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_fields</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">username</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The given username must be set&#39;</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">DeviceOwner</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">user</span>
+
+
+<span class="nd">@python_2_unicode_compatible</span>
+<div class="viewcode-block" id="DeviceOwner"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.DeviceOwner">[documentos]</a><span class="k">class</span> <span class="nc">DeviceOwner</span><span class="p">(</span><span class="n">KolibriAbstractBaseUser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    When a user first installs Kolibri on a device, they will be prompted to create a ``DeviceOwner``, a special kind of</span>
+<span class="sd">    user which is associated with that device only, and who must give permission to make broad changes to the Kolibri</span>
+<span class="sd">    installation on that device (such as creating a ``Facility``, or changing configuration settings).</span>
+
+<span class="sd">    Actions not relating to user data but specifically to a device -- like upgrading Kolibri, changing whether the</span>
+<span class="sd">    device is a Classroom Server or Classroom Client, or determining manually which data should be synced -- must be</span>
+<span class="sd">    performed by a ``DeviceOwner``.</span>
+
+<span class="sd">    A ``DeviceOwner`` is a superuser, and has full access to do anything she wants with data on the device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">DeviceOwnerManager</span><span class="p">()</span>
+
+    <span class="c1"># DeviceOwners can access the Django admin interface</span>
+    <span class="n">is_staff</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">is_superuser</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">is_member_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># a DeviceOwner is not a member of any Collection</span>
+
+    <span class="k">def</span> <span class="nf">get_roles_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">])</span>  <span class="c1"># a DeviceOwner has admin role for all users on the device</span>
+
+    <span class="k">def</span> <span class="nf">get_roles_for_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">])</span>  <span class="c1"># a DeviceOwner has admin role for all collections on the device</span>
+
+    <span class="k">def</span> <span class="nf">has_role_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kinds</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+            <span class="n">kinds</span> <span class="o">=</span> <span class="p">[</span><span class="n">kinds</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span> <span class="ow">in</span> <span class="n">kinds</span>  <span class="c1"># a DeviceOwner has admin role for all users on the device</span>
+
+    <span class="k">def</span> <span class="nf">has_role_for_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">coll</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kinds</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+            <span class="n">kinds</span> <span class="o">=</span> <span class="p">[</span><span class="n">kinds</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span> <span class="ow">in</span> <span class="n">kinds</span>  <span class="c1"># a DeviceOwner has admin role for all collections on the device</span>
+
+    <span class="k">def</span> <span class="nf">can_create_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># DeviceOwners are superusers, and can do anything</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">can_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># DeviceOwners are superusers, and can do anything</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">can_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># DeviceOwners are superusers, and can do anything</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">can_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="c1"># DeviceOwners are superusers, and can do anything</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">filter_readable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">queryset</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_full_name</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span>
+
+    <span class="k">def</span> <span class="nf">has_perm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perm</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># ensure the DeviceOwner has full access to the Django admin</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">has_perms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perm_list</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># ensure the DeviceOwner has full access to the Django admin</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">has_module_perms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_label</span><span class="p">):</span>
+        <span class="c1"># ensure the DeviceOwner has full access to the Django admin</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<span class="nd">@python_2_unicode_compatible</span>
+<div class="viewcode-block" id="Collection"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Collection">[documentos]</a><span class="k">class</span> <span class="nc">Collection</span><span class="p">(</span><span class="n">MPTTModel</span><span class="p">,</span> <span class="n">AbstractFacilityDataModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ``Collections`` are hierarchical groups of ``FacilityUsers``, used for grouping users and making decisions about permissions.</span>
+<span class="sd">    ``FacilityUsers`` can have roles for one or more ``Collections``, by way of obtaining ``Roles`` associated with those ``Collections``.</span>
+<span class="sd">    ``Collections`` can belong to other ``Collections``, and user membership in a ``Collection`` is conferred through ``Memberships``.</span>
+<span class="sd">    ``Collections`` are subdivided into several pre-defined levels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Collection can be read by anybody from the facility; writing is only allowed by an admin for the collection.</span>
+    <span class="c1"># Furthermore, no FacilityUser can create or delete a Facility. Permission to create a collection is governed</span>
+    <span class="c1"># by roles in relation to the new collection&#39;s parent collection (see CollectionSpecificRoleBasedPermissions).</span>
+    <span class="n">permissions</span> <span class="o">=</span> <span class="n">IsFromSameFacility</span><span class="p">(</span><span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">|</span> <span class="n">CollectionSpecificRoleBasedPermissions</span><span class="p">()</span>
+
+    <span class="n">_KIND</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Should be overridden in subclasses to specify what &quot;kind&quot; they are</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">TreeForeignKey</span><span class="p">(</span><span class="s1">&#39;self&#39;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">,</span> <span class="n">db_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">collection_kinds</span><span class="o">.</span><span class="n">choices</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clean_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_kind</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Collection</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">clean_fields</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_kind</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Collection</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_ensure_kind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make sure the &quot;kind&quot; is set correctly on the model, corresponding to the appropriate subclass of ``Collection``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_KIND</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_KIND</span>
+
+    <span class="k">def</span> <span class="nf">get_members</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">collection_kinds</span><span class="o">.</span><span class="n">FACILITY</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FacilityUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>  <span class="c1"># FacilityUser is always a member of her own facility</span>
+        <span class="k">return</span> <span class="n">HierarchyRelationsFilter</span><span class="p">(</span><span class="n">FacilityUser</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by_hierarchy</span><span class="p">(</span>
+            <span class="n">target_user</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">),</span>
+            <span class="n">ancestor_collection</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Collection.add_role"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Collection.add_role">[documentos]</a>    <span class="k">def</span> <span class="nf">add_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">role_kind</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a ``Role`` associating the provided user with this collection, with the specified kind of role.</span>
+<span class="sd">        If the Role object already exists, just return that, without changing anything.</span>
+
+<span class="sd">        :param user: The ``FacilityUser`` to associate with this ``Collection``.</span>
+<span class="sd">        :param role_kind: The kind of role to give the user with respect to this ``Collection``.</span>
+<span class="sd">        :return: The ``Role`` object (possibly new) that associates the user with the ``Collection``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># ensure the specified role kind is valid</span>
+        <span class="k">if</span> <span class="n">role_kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">kind</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">kind</span> <span class="ow">in</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">choices</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InvalidRoleKind</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">{role_kind}</span><span class="s2">&#39; is not a valid role kind.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">role_kind</span><span class="o">=</span><span class="n">role_kind</span><span class="p">))</span>
+
+        <span class="c1"># ensure the provided user is a FacilityUser</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">FacilityUser</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UserIsNotFacilityUser</span><span class="p">(</span><span class="s2">&quot;You can only add roles for FacilityUsers.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># create the necessary role, if it doesn&#39;t already exist</span>
+        <span class="n">role</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">Role</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">collection</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">role_kind</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">role</span></div>
+
+<div class="viewcode-block" id="Collection.remove_role"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Collection.remove_role">[documentos]</a>    <span class="k">def</span> <span class="nf">remove_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">role_kind</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove any ``Role`` objects associating the provided user with this ``Collection``, with the specified kind of role.</span>
+
+<span class="sd">        :param user: The ``FacilityUser`` to dissociate from this ``Collection`` (for the specific role kind).</span>
+<span class="sd">        :param role_kind: The kind of role to remove from the user with respect to this ``Collection``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># ensure the specified role kind is valid</span>
+        <span class="k">if</span> <span class="n">role_kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">kind</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">kind</span> <span class="ow">in</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">choices</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InvalidRoleKind</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">{role_kind}</span><span class="s2">&#39; is not a valid role kind.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">role_kind</span><span class="o">=</span><span class="n">role_kind</span><span class="p">))</span>
+
+        <span class="c1"># ensure the provided user is a FacilityUser</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">FacilityUser</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UserIsNotFacilityUser</span><span class="p">(</span><span class="s2">&quot;You can only remove roles for FacilityUsers.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># make sure the user has the role to begin with</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">has_role_for_collection</span><span class="p">(</span><span class="n">role_kind</span><span class="p">,</span> <span class="bp">self</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UserDoesNotHaveRoleError</span><span class="p">(</span><span class="s2">&quot;User does not have this role for this collection.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># delete the appropriate role, if it exists</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">Role</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">collection</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">role_kind</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+        <span class="c1"># if no Roles were deleted, the user&#39;s role must have been indirect (via the collection hierarchy)</span>
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UserHasRoleOnlyIndirectlyThroughHierarchyError</span><span class="p">(</span>
+                <span class="s2">&quot;Role cannot be removed, as user has it only indirectly, through the collection hierarchy.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Collection.add_member"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Collection.add_member">[documentos]</a>    <span class="k">def</span> <span class="nf">add_member</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a ``Membership`` associating the provided user with this ``Collection``.</span>
+<span class="sd">        If the ``Membership`` object already exists, just return that, without changing anything.</span>
+
+<span class="sd">        :param user: The ``FacilityUser`` to add to this ``Collection``.</span>
+<span class="sd">        :return: The ``Membership`` object (possibly new) that associates the user with the ``Collection``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># ensure the provided user is a FacilityUser</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">FacilityUser</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UserIsNotFacilityUser</span><span class="p">(</span><span class="s2">&quot;You can only add memberships for FacilityUsers.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># create the necessary membership, if it doesn&#39;t already exist</span>
+        <span class="n">membership</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">Membership</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">collection</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">membership</span></div>
+
+<div class="viewcode-block" id="Collection.remove_member"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Collection.remove_member">[documentos]</a>    <span class="k">def</span> <span class="nf">remove_member</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove any ``Membership`` objects associating the provided user with this ``Collection``.</span>
+
+<span class="sd">        :param user: The ``FacilityUser`` to remove from this ``Collection``.</span>
+<span class="sd">        :return: ``True`` if a ``Membership`` was removed, ``False`` if there was no matching ``Membership`` to remove.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># ensure the provided user is a FacilityUser</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">FacilityUser</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UserIsNotFacilityUser</span><span class="p">(</span><span class="s2">&quot;You can only remove memberships for FacilityUsers.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">is_member_of</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UserIsNotMemberError</span><span class="p">(</span><span class="s2">&quot;The user is not a member of the collection, and cannot be removed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># delete the appropriate membership, if it exists</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">Membership</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">collection</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+        <span class="c1"># if no Memberships were deleted, the user&#39;s membership must have been indirect (via the collection hierarchy)</span>
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UserIsMemberOnlyIndirectlyThroughHierarchyError</span><span class="p">(</span>
+                <span class="s2">&quot;Membership cannot be removed, as user is a member only indirectly, through the collection hierarchy.&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">infer_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+            <span class="c1"># subcollections inherit dataset from root of their tree</span>
+            <span class="c1"># (we can&#39;t call `get_root` directly on self, as it won&#39;t work if self hasn&#39;t yet been saved)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">get_root</span><span class="p">()</span><span class="o">.</span><span class="n">dataset</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># the root node (i.e. Facility) must be explicitly tied to a dataset</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&quot;</span><span class="si">{name}</span><span class="s1">&quot; (</span><span class="si">{kind}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span></div>
+
+
+<span class="nd">@python_2_unicode_compatible</span>
+<div class="viewcode-block" id="Membership"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Membership">[documentos]</a><span class="k">class</span> <span class="nc">Membership</span><span class="p">(</span><span class="n">AbstractFacilityDataModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A ``FacilityUser`` can be marked as a member of a ``Collection`` through a ``Membership`` object. Being a member of a</span>
+<span class="sd">    ``Collection`` also means being a member of all the ``Collections`` above that ``Collection`` in the tree (i.e. if you</span>
+<span class="sd">    are a member of a ``LearnerGroup``, you are also a member of the ``Classroom`` that contains that ``LearnerGroup``,</span>
+<span class="sd">    and of the ``Facility`` that contains that ``Classroom``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">permissions</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">IsOwn</span><span class="p">(</span><span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">|</span>  <span class="c1"># users can read their own Memberships</span>
+        <span class="n">RoleBasedPermissions</span><span class="p">(</span>  <span class="c1"># Memberships can be read and written by admins, and read by coaches, for the member user</span>
+            <span class="n">target_field</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="n">can_be_created_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,),</span>
+            <span class="n">can_be_read_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">COACH</span><span class="p">),</span>
+            <span class="n">can_be_updated_by</span><span class="o">=</span><span class="p">(),</span>  <span class="c1"># Membership objects shouldn&#39;t be updated; they should be deleted and recreated as needed</span>
+            <span class="n">can_be_deleted_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;FacilityUser&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="c1"># Note: &quot;It&#39;s recommended you use mptt.fields.TreeForeignKey wherever you have a foreign key to an MPTT model.</span>
+    <span class="c1"># https://django-mptt.github.io/django-mptt/models.html#treeforeignkey-treeonetoonefield-treemanytomanyfield</span>
+    <span class="n">collection</span> <span class="o">=</span> <span class="n">TreeForeignKey</span><span class="p">(</span><span class="s2">&quot;Collection&quot;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">unique_together</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;collection&quot;</span><span class="p">),)</span>
+
+    <span class="k">def</span> <span class="nf">infer_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">user_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">dataset</span>
+        <span class="n">collection_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">dataset</span>
+        <span class="k">if</span> <span class="n">user_dataset</span> <span class="o">!=</span> <span class="n">collection_dataset</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KolibriValidationError</span><span class="p">(</span><span class="s2">&quot;Collection and user for a Membership object must be in same dataset.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">user_dataset</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{user}</span><span class="s2">&#39;s membership in </span><span class="si">{collection}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">collection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="p">)</span></div>
+
+<span class="nd">@python_2_unicode_compatible</span>
+<div class="viewcode-block" id="Role"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Role">[documentos]</a><span class="k">class</span> <span class="nc">Role</span><span class="p">(</span><span class="n">AbstractFacilityDataModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A ``FacilityUser`` can have a role for a particular ``Collection`` through a ``Role`` object, which also stores</span>
+<span class="sd">    the &quot;kind&quot; of the ``Role`` (currently, one of &quot;admin&quot; or &quot;coach&quot;). Having a role for a ``Collection`` also</span>
+<span class="sd">    implies having that role for all sub-collections of that ``Collection`` (i.e. all the ``Collections`` below it</span>
+<span class="sd">    in the tree).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">permissions</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">IsOwn</span><span class="p">(</span><span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">|</span>  <span class="c1"># users can read their own Roles</span>
+        <span class="n">RoleBasedPermissions</span><span class="p">(</span>  <span class="c1"># Memberships can be read and written by admins, and read by coaches, for the role collection</span>
+            <span class="n">target_field</span><span class="o">=</span><span class="s2">&quot;collection&quot;</span><span class="p">,</span>
+            <span class="n">can_be_created_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,),</span>
+            <span class="n">can_be_read_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">COACH</span><span class="p">),</span>
+            <span class="n">can_be_updated_by</span><span class="o">=</span><span class="p">(),</span>  <span class="c1"># Role objects shouldn&#39;t be updated; they should be deleted and recreated as needed</span>
+            <span class="n">can_be_deleted_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;FacilityUser&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="c1"># Note: &quot;It&#39;s recommended you use mptt.fields.TreeForeignKey wherever you have a foreign key to an MPTT model.</span>
+    <span class="c1"># https://django-mptt.github.io/django-mptt/models.html#treeforeignkey-treeonetoonefield-treemanytomanyfield</span>
+    <span class="n">collection</span> <span class="o">=</span> <span class="n">TreeForeignKey</span><span class="p">(</span><span class="s2">&quot;Collection&quot;</span><span class="p">)</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">choices</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">unique_together</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;collection&quot;</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">),)</span>
+
+    <span class="k">def</span> <span class="nf">infer_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">user_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">dataset</span>
+        <span class="n">collection_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">dataset</span>
+        <span class="k">if</span> <span class="n">user_dataset</span> <span class="o">!=</span> <span class="n">collection_dataset</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KolibriValidationError</span><span class="p">(</span><span class="s2">&quot;The collection and user for a Role object must be in the same dataset.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">user_dataset</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{user}</span><span class="s2">&#39;s </span><span class="si">{kind}</span><span class="s2"> role for </span><span class="si">{collection}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span> <span class="n">collection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">CollectionProxyManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CollectionProxyManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_KIND</span><span class="p">)</span>
+
+
+<span class="nd">@python_2_unicode_compatible</span>
+<div class="viewcode-block" id="Facility"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Facility">[documentos]</a><span class="k">class</span> <span class="nc">Facility</span><span class="p">(</span><span class="n">Collection</span><span class="p">):</span>
+
+    <span class="n">_KIND</span> <span class="o">=</span> <span class="n">collection_kinds</span><span class="o">.</span><span class="n">FACILITY</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">CollectionProxyManager</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IntegrityError</span><span class="p">(</span><span class="s2">&quot;Facility must be the root of a collection tree, and cannot have a parent.&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Facility</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">infer_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># if we don&#39;t yet have a dataset, create a new one for this facility</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_id</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">FacilityDataset</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span>
+
+<div class="viewcode-block" id="Facility.get_classrooms"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Facility.get_classrooms">[documentos]</a>    <span class="k">def</span> <span class="nf">get_classrooms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a QuerySet of Classrooms under this Facility.</span>
+
+<span class="sd">        :return: A Classroom QuerySet.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Classroom</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">add_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_role</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">add_admin</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">remove_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_role</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_coach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_role</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">COACH</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_coaches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">add_coach</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">remove_coach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_role</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">COACH</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+
+<span class="nd">@python_2_unicode_compatible</span>
+<div class="viewcode-block" id="Classroom"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Classroom">[documentos]</a><span class="k">class</span> <span class="nc">Classroom</span><span class="p">(</span><span class="n">Collection</span><span class="p">):</span>
+
+    <span class="n">_KIND</span> <span class="o">=</span> <span class="n">collection_kinds</span><span class="o">.</span><span class="n">CLASSROOM</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">CollectionProxyManager</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IntegrityError</span><span class="p">(</span><span class="s2">&quot;Classroom cannot be the root of a collection tree, and must have a parent.&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Classroom</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Classroom.get_facility"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Classroom.get_facility">[documentos]</a>    <span class="k">def</span> <span class="nf">get_facility</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the ``Classroom``&#39;s parent ``Facility``.</span>
+
+<span class="sd">        :return: A ``Facility`` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Facility</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Classroom.get_learner_groups"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.Classroom.get_learner_groups">[documentos]</a>    <span class="k">def</span> <span class="nf">get_learner_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a ``QuerySet`` of ``LearnerGroups`` associated with this ``Classroom``.</span>
+
+<span class="sd">        :return: A ``LearnerGroup`` ``QuerySet``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">LearnerGroup</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">add_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_role</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">add_admin</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">remove_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_role</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_coach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_role</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">COACH</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_coaches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">add_coach</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">remove_coach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_role</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">COACH</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+
+<span class="nd">@python_2_unicode_compatible</span>
+<div class="viewcode-block" id="LearnerGroup"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.LearnerGroup">[documentos]</a><span class="k">class</span> <span class="nc">LearnerGroup</span><span class="p">(</span><span class="n">Collection</span><span class="p">):</span>
+
+    <span class="n">_KIND</span> <span class="o">=</span> <span class="n">collection_kinds</span><span class="o">.</span><span class="n">LEARNERGROUP</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">CollectionProxyManager</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IntegrityError</span><span class="p">(</span><span class="s2">&quot;LearnerGroup cannot be the root of a collection tree, and must have a parent.&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LearnerGroup</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LearnerGroup.get_classroom"><a class="viewcode-back" href="../../../dev/uap.html#kolibri.auth.models.LearnerGroup.get_classroom">[documentos]</a>    <span class="k">def</span> <span class="nf">get_classroom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the ``LearnerGroup``&#39;s parent ``Classroom``.</span>
+
+<span class="sd">        :return: A ``Classroom`` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Classroom</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_id</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">add_learner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_learners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">add_learner</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">remove_learner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_member</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

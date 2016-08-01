@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Concepts and Definitions &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../../index.html"/>
+        <link rel="up" title="Users, Authentication, and Permissions" href="../uap.html"/>
+        <link rel="next" title="Implementation Details" href="implementation.html"/>
+        <link rel="prev" title="Users, Authentication, and Permissions" href="../uap.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#architecture">Architecture</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tests.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stack.html">Tech Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plugins.html">Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building.html">Distribution and installers</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../uap.html">Users, Authentication, and Permissions</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Concepts and Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="implementation.html">Implementation Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../uap.html#models">Models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../user_management.html">User Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../frontend.html">Front-end Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../asset_loading.html">Front-end Asset Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../conventions.html">Project Conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Developer Guide</a> &raquo;</li>
+      
+          <li><a href="../uap.html">Users, Authentication, and Permissions</a> &raquo;</li>
+      
+    <li>Concepts and Definitions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/dev/uap/concepts_and_definitions.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="concepts-and-definitions">
+<h1>Concepts and Definitions<a class="headerlink" href="#concepts-and-definitions" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="facility">
+<h2>Facility<a class="headerlink" href="#facility" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>All user data (accounts, logs, ratings, etc) in Kolibri are associated with a
+particular &#8220;Facility&#8221;. A Facility is a grouping of users who are physically
+co-located, and who generally access Kolibri from the same server on a local
+network, for example in a school, library, or community center. Collectively,
+all the data associated with a particular Facility are referred to as a
+&#8220;Facility Dataset&#8221;.</p>
+</div>
+<div class="section" id="users">
+<h2>Users<a class="headerlink" href="#users" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>There are two kinds of users: <code class="docutils literal"><span class="pre">FacilityUser</span></code> and <code class="docutils literal"><span class="pre">DeviceOwner</span></code>. A
+<code class="docutils literal"><span class="pre">FacilityUser</span></code> is associated with a particular <code class="docutils literal"><span class="pre">Facility</span></code>, and the user&#8217;s
+account and data may be synchronized across multiple devices. A
+<code class="docutils literal"><span class="pre">DeviceOwner</span></code> account is not associated with a particular <code class="docutils literal"><span class="pre">Facility</span></code>, but
+is specific to one device, and is never synchronized across multiple devices.
+A <code class="docutils literal"><span class="pre">DeviceOwner</span></code> is like a superuser, and has permissions to modify any data
+on her own device, whereas a <code class="docutils literal"><span class="pre">FacilityUser</span></code> only has permissions for some
+subset of data from their own Facility Dataset (as determined in part by the
+roles they possess; see below).</p>
+</div>
+<div class="section" id="collections">
+<h2>Collections<a class="headerlink" href="#collections" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Collections are hierarchical groups of users, used for grouping users and
+making decisions about permissions. Users can have roles for one or more
+Collections, by way of obtaining Roles associated with those Collections.
+Collections can belong to other Collections, and user membership in a
+collection is conferred through Membership. Collections are subdivided into
+several pre-defined levels: Facility, Classroom, and LearnerGroup, as
+illustrated here:</p>
+<img alt="../../_images/uap_collection_hierarchy.svg" src="../../_images/uap_collection_hierarchy.svg" /><p>In this illustration, Facility X contains two Classrooms, Class A and Class B.
+Class A contains two LearnerGroups, Group Q and Group R.</p>
+</div>
+<div class="section" id="membership">
+<h2>Membership<a class="headerlink" href="#membership" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>A <code class="docutils literal"><span class="pre">FacilityUser</span></code> (but not a <code class="docutils literal"><span class="pre">DeviceOwner</span></code>) can be marked as a member of a
+<code class="docutils literal"><span class="pre">Collection</span></code> through a <code class="docutils literal"><span class="pre">Membership</span></code> object. Being a member of a Collection
+also means being a member of all the Collections above that Collection in the
+hierarchy. Thus, in the illustration below, Alice is directly associated with
+Group Q through a <code class="docutils literal"><span class="pre">Membership</span></code> object, which makes her a member of Group Q.
+As Group Q is contained within Class A, which is contained within Facility X,
+she is also implicitly a member of both those collections.</p>
+<img alt="../../_images/uap_membership_diagram.svg" src="../../_images/uap_membership_diagram.svg" /><p>Note also that a <code class="docutils literal"><span class="pre">FacilityUser</span></code> is always implicitly a member of the
+<code class="docutils literal"><span class="pre">Facility</span></code> with which it is associated, even if it does not have any
+<code class="docutils literal"><span class="pre">Membership</span></code> objects.</p>
+</div>
+<div class="section" id="roles">
+<h2>Roles<a class="headerlink" href="#roles" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Another way in which a <code class="docutils literal"><span class="pre">FacilityUser</span></code> can be associated with a particular
+<code class="docutils literal"><span class="pre">Collection</span></code> is through a <code class="docutils literal"><span class="pre">Role</span></code> object, which grants the user a role with
+respect to the <code class="docutils literal"><span class="pre">Collection</span></code> and all the collections below it. A <code class="docutils literal"><span class="pre">Role</span></code>
+object also stores the &#8220;kind&#8221; of the role (currently, one of &#8220;admin&#8221; or
+&#8220;coach&#8221;), which affects what permissions the user gains through the <code class="docutils literal"><span class="pre">Role</span></code>.</p>
+<p>To illustrate, consider the example in the following figure:</p>
+<img alt="../../_images/uap_role_membership_diagram.svg" src="../../_images/uap_role_membership_diagram.svg" /><p>The figure shows a Role object linking Bob with Class A, and the Role is
+marked with kind &#8220;coach&#8221;, which we can informally read as &#8220;Bob is a coach for
+Class A&#8221;. We consider user roles to be &#8220;downward-transitive&#8221; (meaning if you
+have a role for a collection, you also have that role for descendents of that
+collection). Thus, in our example, we can say that &#8220;Bob is also a coach for
+Group Q&#8221;. Furthermore, as Alice is a member of Group Q, we can say that &#8220;Bob
+is a coach for Alice&#8221;.</p>
+</div>
+<div class="section" id="role-based-permissions">
+<h2>Role-Based Permissions<a class="headerlink" href="#role-based-permissions" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>As a lot of Facility Data in Kolibri is associated with a particular
+<code class="docutils literal"><span class="pre">FacilityUser</span></code>, for many objects we can concisely define a requesting user&#8217;s
+permissions in terms of his or her roles for the object&#8217;s associated User. For
+example, if a <code class="docutils literal"><span class="pre">ContentLog</span></code> represents a particular <code class="docutils literal"><span class="pre">FacilityUser</span></code>&#8216;s
+interaction with a piece of content, we might decide that another
+<code class="docutils literal"><span class="pre">FacilityUser</span></code> can view the <code class="docutils literal"><span class="pre">ContentLog</span></code> if she is a coach (has the coach
+role) for the user. In our scenario above, this would mean that Bob would have
+read permissions for a <code class="docutils literal"><span class="pre">ContentLog</span></code> for which &#8220;user=Alice&#8221;, by virtue of
+having the coach role for Alice.</p>
+<p>Some data may not be related to a particular user, but rather with a
+<code class="docutils literal"><span class="pre">Collection</span></code> (e.g. the <code class="docutils literal"><span class="pre">Collection</span></code> object itself, settings for a
+<code class="docutils literal"><span class="pre">Collection</span></code>, or content assignments for a <code class="docutils literal"><span class="pre">Collection</span></code>). Permissions for
+these objects can be defined in terms of the role the requesting User has with
+respect to the object&#8217;s associated Collection. So, for example, we might allow
+Bob to assign content to Class A on the basis of him having the &#8220;coach&#8221; role
+for Class A.</p>
+</div>
+<div class="section" id="permission-levels">
+<h2>Permission Levels<a class="headerlink" href="#permission-levels" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>As we are constructing a RESTful API for accessing data within Kolibri, the
+core actions for which we need to define permissions are the CRUD operations
+(Create, Read, Update, Delete). As Create, Update, and Delete permissions
+often go hand in hand, we can collectively refer to them as &#8220;Write
+Permissions&#8221;.</p>
+<img alt="../../_images/uap_crud_permissions.svg" src="../../_images/uap_crud_permissions.svg" /></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="implementation.html" class="btn btn-neutral float-right" title="Implementation Details" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../uap.html" class="btn btn-neutral" title="Users, Authentication, and Permissions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

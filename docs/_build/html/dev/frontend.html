@@ -1,0 +1,395 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Front-end Architecture &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../index.html"/>
+        <link rel="up" title="Developer Guide" href="index.html"/>
+        <link rel="next" title="Front-end Asset Loading" href="asset_loading.html"/>
+        <link rel="prev" title="User Management" href="user_management.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#architecture">Architecture</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stack.html">Tech Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building.html">Distribution and installers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uap.html">Users, Authentication, and Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Front-end Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#components">Components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#layout-of-frontend-code">Layout of Frontend Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#svg-icons">SVG Icons</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#single-page-apps">Single-page Apps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shared-core-functionality">Shared Core Functionality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unit-testing">Unit Testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adding-dependencies">Adding Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="asset_loading.html">Front-end Asset Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html">Project Conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Front-end Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/frontend.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="front-end-architecture">
+<h1>Front-end Architecture<a class="headerlink" href="#front-end-architecture" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="components">
+<h2>Components<a class="headerlink" href="#components" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>We leverage <a class="reference external" href="https://vuejs.org/guide/components.html">Vue.js components</a> as the primary building blocks for our UI. For general UI development work, this is the most common tool a developer will use. It would be prudent to read through the <a class="reference external" href="https://vuejs.org/guide/">Vue.js guide</a> thoroughly.</p>
+<p>Each component contains HTML with dynamic Vue.js directives, styling which is scoped to that component (written using <a class="reference external" href="http://stylus-lang.com/">Stylus</a>), and logic which is also scoped to that component (written using <a class="reference external" href="https://babeljs.io/docs/plugins/preset-es2015/">ES6 JavaScript</a>). Non-scoped styles can also be added, but these should be carefully namespaced.</p>
+<p>Components allow us to define new custom tags that encapsulate a piece of self-contained, re-usable UI functionality. When composed together, they form a tree structure of parents and children. Each component has a well-defined interface used by its parent component, made up of <a class="reference external" href="https://vuejs.org/guide/components.html#Props">input properties</a>, <a class="reference external" href="https://vuejs.org/guide/components.html#Custom-Events">events</a> and <a class="reference external" href="https://vuejs.org/guide/components.html#Content-Distribution-with-Slots">content slots</a>. Components should never reference their parent.</p>
+<p>Read through <a class="reference internal" href="conventions.html"><span class="doc">Project Conventions</span></a> for some important consistency tips on writing new components.</p>
+</div>
+<div class="section" id="layout-of-frontend-code">
+<h2>Layout of Frontend Code<a class="headerlink" href="#layout-of-frontend-code" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Front-end code and assets are generally contained in one of two places: either in one of the plugin subdirectories (under <em>kolibri/plugins</em>) or in <em>kolibri/core</em>, which contains code shared across all plugins as described below.</p>
+<p>Within these directories, there should be an <em>assets</em> directory with <em>src</em> and <em>test</em> under it. Most assets will go in <em>src</em>, and tests for the components will go in <em>test</em>.</p>
+<p>For example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>kolibri/
+  core/                       # core (shared) items
+    assets/
+      src/
+        core-base.vue         # global base template, used by apps
+        core-modal.vue        # example of another shared component
+        core-global.styl      # globally defined styles, indluded in head
+        core-theme.styl       # style variable values
+        font-NotoSans.css     # embedded font
+      test/
+        ...                   # tests for core assets
+  plugins/
+    learn                     # learn plugin
+      assets/
+        src/
+          vue/
+            index.vue         # root view
+            some-page.vue     # top-level client-side page
+            another-page/     # top-level client-side page
+              index.vue
+              child.vue       # child component used only by parent
+            shared.vue        # shared across this plugin
+          app.js              # instantiate learn app on client-side
+          router.js
+          store.js
+        test/
+          app.js
+    management/
+      assets/
+        src/
+          learner-roster.vue  # nested-view
+          vue/index.vue        # root view
+          app.js              # instantiate mgmt app on client-side
+        test/
+          app.js
+</pre></div>
+</div>
+<p>In the example above, the <em>vue/another-page/index.vue</em> file in <em>learn</em> can use other assets in the same directory (such as <em>child.vue</em>), components in <em>vue</em> (such as <em>shared.vue</em>), and assets in core (such as variables in <em>core-theme.styl</em>). However it cannot use files in other plugin directories (such as <em>management</em>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p>For many development scenarios, only files in these directories need to be touched.</p>
+<p class="last">There is also a lot of logic and configuration relevant to front-end code loading, parsing, testing, and linting. This includes webpack, NPM, and integration with the plugin system. This is somewhat scattered, and includes logic in <em>frontend_build/...</em>, <em>package.json</em>, <em>kolibri/core/webpack/...</em>, and other locations. Much of this functionality is described in other sections of the docs (such as <a class="reference internal" href="asset_loading.html"><span class="doc">Front-end Asset Loading</span></a>), but it can take some time to understand how it all hangs together.</p>
+</div>
+</div>
+<div class="section" id="svg-icons">
+<h2>SVG Icons<a class="headerlink" href="#svg-icons" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>SVGs can be inlined into Vue components using a special syntax:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;icon.svg&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">svg</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Then, if there is a file called <code class="docutils literal"><span class="pre">icon.svg</span></code> in the same directory, that file will be inserted directly into the outputted HTML. This allows aspects of the icon (e.g. fill) to be styled using CSS.</p>
+<p>Attributes (such as vue directives like <code class="docutils literal"><span class="pre">v-if</span></code> and SVG attributes like <code class="docutils literal"><span class="pre">viewbox</span></code>) can also be added to the svg tag.</p>
+</div>
+<div class="section" id="single-page-apps">
+<h2>Single-page Apps<a class="headerlink" href="#single-page-apps" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>The Kolibri front-end is made of a few high-level &#8220;app&#8221; plugins, which are single-page JS applications (conventionally <em>app.js</em>) with their own base URL and a single root Vue.js component. Examples of apps are &#8216;Learn&#8217; and &#8216;User Management&#8217;, as shown in the example above. Apps are independent of each other, and can only reference components and styles from within themselves and from core.</p>
+<p>Each app is implemented as a Kolibri plugin and is defined in a subdirectory of <em>kolibri/plugins</em>.</p>
+<p>On the Server-side, the <code class="docutils literal"><span class="pre">kolibri_plugin.py</span></code> file describes most of the configuration for the single-page app. In particular, this includes the base Django HTML template to return (with an empty <code class="docutils literal"><span class="pre">&lt;body&gt;</span></code>), the URL at which the app is exposed, and the javascript entry file which is run on load.</p>
+<p>On the client-side, the app creates a single <code class="docutils literal"><span class="pre">KolibriModule</span></code> object in the entry file (conventionally <em>app.js</em>) and registers this with the core app, a global variable called <code class="docutils literal"><span class="pre">kolibriGlobal</span></code>. The Kolibri Module then mounts single root component to the HTML returned by the server, which recursively contains all additional components, html and logic.</p>
+<div class="section" id="defining-a-new-kolibri-module">
+<h3>Defining a New Kolibri Module<a class="headerlink" href="#defining-a-new-kolibri-module" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">This section is mostly relevant if you are creating a new app or plugin. If you are just creating new components, you don&#8217;t need to do this.</p>
+</div>
+<p>A Kolibri Module is initially defined in Python by sub-classing the <code class="docutils literal"><span class="pre">WebpackBundleHook</span></code> class (in <code class="docutils literal"><span class="pre">kolibri.core.webpack.hooks</span></code>). The hook defines the JS entry point (conventionally called <em>app.js</em>) where the <code class="docutils literal"><span class="pre">KolibriModule</span></code> subclass is instantiated, and where events and callbacks on the module are registered. These are defined in the <code class="docutils literal"><span class="pre">events</span></code> and <code class="docutils literal"><span class="pre">once</span></code> properties. Each defines key-value pairs of the name of an event, and the name of the method on the <code class="docutils literal"><span class="pre">KolibriModule</span></code> object. When these events are triggered on the Kolibri core JavaScript app, these callbacks will be called. (If the <code class="docutils literal"><span class="pre">KolibriModule</span></code> is registered for asynchronous loading, the Kolibri Module will first be loaded, and then the callbacks called when it is ready. See <a class="reference internal" href="asset_loading.html"><span class="doc">Front-end Asset Loading</span></a> for more information.)</p>
+<p>All apps should extend the <code class="docutils literal"><span class="pre">KolibriModule</span></code> class found in <cite>kolibri/core/assets/src/kolibri_module.js</cite>.</p>
+<p>The <code class="docutils literal"><span class="pre">ready</span></code> method will be automatically executed once the Module is loaded and registered with the Kolibri Core App. By convention, JavaScript is injected into the served HTML <em>after</em> the <code class="docutils literal"><span class="pre">&lt;rootvue&gt;</span></code> tag, meaning that this tag should be available when the <code class="docutils literal"><span class="pre">ready</span></code> method is called, and the root component (conventionally in <em>vue/index.vue</em>) can be mounted here.</p>
+</div>
+</div>
+<div class="section" id="shared-core-functionality">
+<h2>Shared Core Functionality<a class="headerlink" href="#shared-core-functionality" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Kolibri provides a set of shared &#8220;core&#8221; functionality – including components, styles, and helper logic, and libraries – which can be re-used across apps and plugins.</p>
+<div class="section" id="js-libraries">
+<h3>JS Libraries<a class="headerlink" href="#js-libraries" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>The following libraries are available globally, in all plugin code:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">vue</span></code> - the Vue.js object</li>
+<li><code class="docutils literal"><span class="pre">loglevel</span></code> - the <a class="reference external" href="https://github.com/pimterry/loglevel">loglevel logging module</a></li>
+<li><code class="docutils literal"><span class="pre">core-base</span></code> - a shared base Vue.js component (<em>core-base.vue</em>)</li>
+</ul>
+<p>These can be used in code with a standard CommonJS-style require statement - e.g.:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kr">const</span> <span class="nx">vue</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;vue&#39;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">coreBase</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;core-base&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p>Due to the mechanics of the <a class="reference external" href="asset_loading">plugin and webpack build system</a>, adding additional globally-available objects is somewhat complicated.</p>
+<p class="last">References to the objects are attached to the <code class="docutils literal"><span class="pre">kolibriGlobal</span></code> object in <em>core_app_constructor.js</em>, and mapped to globally accessible names in <em>webpack.config.js</em>.</p>
+</div>
+</div>
+<div class="section" id="bootstrapped-data">
+<h3>Bootstrapped Data<a class="headerlink" href="#bootstrapped-data" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">kolibriGlobal</span></code> object is also used to bootstrap data into the JS app, rather than making unnecessary API requests.</p>
+<p>For example, we currently embellish the <code class="docutils literal"><span class="pre">kolibriGlobal</span></code> object with a <code class="docutils literal"><span class="pre">urls</span></code> object. This is defined by <a class="reference external" href="https://github.com/ierror/django-js-reverse">Django JS Reverse</a> and exposes Django URLs on the client side. This will primarily be used for accessing API Urls for synchronizing with the REST API. See the Django JS Reverse documentation for details on invoking the Url.</p>
+</div>
+<div class="section" id="styling">
+<h3>Styling<a class="headerlink" href="#styling" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>For shared styles, two mechanisms are provided:</p>
+<ul class="simple">
+<li>The <em>core-theme.styl</em> file provides values for some globally-relevant Stylus variables. These variables can be used in any component&#8217;s <code class="docutils literal"><span class="pre">&lt;style&gt;</span></code> block by adding the line <code class="docutils literal"><span class="pre">&#64;require</span> <span class="pre">'~core-theme.styl'</span></code>.</li>
+<li>The <em>core-global.styl</em> file is always inserted into the <code class="docutils literal"><span class="pre">&lt;head&gt;</span></code> after normalize.css and provides some basic styling to global elements</li>
+</ul>
+</div>
+<div class="section" id="additional-functionality">
+<h3>Additional Functionality<a class="headerlink" href="#additional-functionality" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>These methods are also publicly exposed methods of the core app:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">kolibriGlobal</span><span class="p">.</span><span class="nx">register_kolibri_module_async</span>   <span class="c1">// Register a Kolibri module for asynchronous loading.</span>
+<span class="nx">kolibriGlobal</span><span class="p">.</span><span class="nx">register_kolibri_module_sync</span>    <span class="c1">// Register a Kolibri module once it has loaded.</span>
+<span class="nx">kolibriGlobal</span><span class="p">.</span><span class="nx">stopListening</span>                   <span class="c1">// Unbind an event/callback pair from triggering.</span>
+<span class="nx">kolibriGlobal</span><span class="p">.</span><span class="nx">emit</span>                            <span class="c1">// Emit an event, with optional args.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="unit-testing">
+<h2>Unit Testing<a class="headerlink" href="#unit-testing" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Unit testing is carried out using <a class="reference external" href="https://mochajs.org/">Mocha</a>. All JavaScript code should have unit tests for all object methods and functions.</p>
+<p>Tests are written in JavaScript, and placed in the &#8216;assets/test&#8217; folder. An example test is shown below:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">assert</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;assert&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">SearchModel</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../src/search/search_model.js&#39;</span><span class="p">);</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;SearchModel&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;default result&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should be empty an empty array&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">test_model</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SearchModel</span><span class="p">();</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">test_model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">),</span> <span class="p">[]);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>Vue.js components can also be tested. The management plugin contains an example (<em>kolibri/plugins/management/assets/test/management.js</em>) where the component is bound to a temporary DOM node, changes are made to the state, and assertions are made about the new component structure.</p>
+</div>
+<div class="section" id="adding-dependencies">
+<h2>Adding Dependencies<a class="headerlink" href="#adding-dependencies" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Dependencies are tracked using <code class="docutils literal"><span class="pre">npm</span> <span class="pre">shrinkwrap</span></code> - <a class="reference external" href="https://docs.npmjs.com/cli/shrinkwrap">see the docs here</a>.</p>
+<p>We distinguish development dependencies from runtime dependencies, and these should be installed as such using <code class="docutils literal"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">--save-dev</span> <span class="pre">[dep]</span></code> or <code class="docutils literal"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">--save</span> <span class="pre">[dep]</span></code>, respectively. Then you&#8217;ll need to run <code class="docutils literal"><span class="pre">npm</span> <span class="pre">shrinkwrap</span></code>. Your new dependency should now be recorded in <em>package.json</em>, and all of its dependencies should be recorded in <em>npm-shrinkwrap.json</em>.</p>
+<p>Note that we currently don&#8217;t have a way of mapping dependencies to plugins - dependencies are installed globally.</p>
+<p>To assist in tracking the source of bloat in our codebase, the command <code class="docutils literal"><span class="pre">npm</span> <span class="pre">run</span> <span class="pre">bundle-stats</span></code> is available to give a full readout of the size that uglified packages take up in the final Javascript code.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="asset_loading.html" class="btn btn-neutral float-right" title="Front-end Asset Loading" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="user_management.html" class="btn btn-neutral" title="User Management" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

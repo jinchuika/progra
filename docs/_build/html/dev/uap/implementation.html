@@ -1,0 +1,589 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Implementation Details &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../../index.html"/>
+        <link rel="up" title="Users, Authentication, and Permissions" href="../uap.html"/>
+        <link rel="next" title="User Management" href="../user_management.html"/>
+        <link rel="prev" title="Concepts and Definitions" href="concepts_and_definitions.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#architecture">Architecture</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tests.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stack.html">Tech Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plugins.html">Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building.html">Distribution and installers</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../uap.html">Users, Authentication, and Permissions</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="concepts_and_definitions.html">Concepts and Definitions</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Implementation Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../uap.html#models">Models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../user_management.html">User Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../frontend.html">Front-end Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../asset_loading.html">Front-end Asset Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../conventions.html">Project Conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Developer Guide</a> &raquo;</li>
+      
+          <li><a href="../uap.html">Users, Authentication, and Permissions</a> &raquo;</li>
+      
+    <li>Implementation Details</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/dev/uap/implementation.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="implementation-details">
+<h1>Implementation Details<a class="headerlink" href="#implementation-details" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="collections">
+<h2>Collections<a class="headerlink" href="#collections" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>A <code class="docutils literal"><span class="pre">Collection</span></code> is implemented as a Django model that inherits from
+<a class="reference external" href="http://django-mptt.github.io/django-mptt/">django-mptt&#8217;s MPTTModel</a>, which
+allows for efficient traversal and querying of the collection hierarchy. For
+convenience, the specific types of collections &#8211; <code class="docutils literal"><span class="pre">Facility</span></code>, <code class="docutils literal"><span class="pre">Classroom</span></code>,
+and <code class="docutils literal"><span class="pre">LearnerGroup</span></code> &#8211; are implemented as _proxy models of the main
+<code class="docutils literal"><span class="pre">Collection</span></code> model. There is a <code class="docutils literal"><span class="pre">kind</span></code> field on <code class="docutils literal"><span class="pre">Collection</span></code> that allows
+us to distinguish between these types, and the <code class="docutils literal"><span class="pre">ModelManager</span></code> for the proxy
+models returns only instances of the matching kind.</p>
+<p>From a <code class="docutils literal"><span class="pre">Collection</span></code> instance, you can traverse upwards in the tree with the
+<code class="docutils literal"><span class="pre">parent</span></code> field, and downwards via the <code class="docutils literal"><span class="pre">children</span></code> field (which is a reverse
+<code class="docutils literal"><span class="pre">RelatedManager</span></code> for the <code class="docutils literal"><span class="pre">parent</span></code> field):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_classroom</span><span class="o">.</span><span class="n">parent</span>
+<span class="go">&lt;Collection: &quot;Facility X&quot; (facility)&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_facility</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Collection: &quot;Class A&quot; (classroom)&gt;, &lt;Collection: &quot;Class B&quot; (classroom)&gt;]</span>
+</pre></div>
+</div>
+<p>Note that the above methods (which are provided by <code class="docutils literal"><span class="pre">MPTTModel</span></code>) return
+generic <code class="docutils literal"><span class="pre">Collection</span></code> instances, rather than specific proxy model instances.
+To retrieve parents and children as appropriate proxy models, use the helper
+methods provided on the proxy models, e.g.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_classroom</span><span class="o">.</span><span class="n">get_facility</span><span class="p">()</span>
+<span class="go">&lt;Facility: Facility X&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_facility</span><span class="o">.</span><span class="n">get_classrooms</span><span class="p">()</span>
+<span class="go">[&lt;Classroom: Class A&gt;, &lt;Classroom: Class B&gt;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="facility-and-facilitydataset">
+<h2>Facility and FacilityDataset<a class="headerlink" href="#facility-and-facilitydataset" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Facility</span></code> model (a proxy model for <code class="docutils literal"><span class="pre">Collection</span></code>, as described above)
+is special in that it has no <code class="docutils literal"><span class="pre">parent</span></code>; it is the root of a tree. A
+<code class="docutils literal"><span class="pre">Facility</span></code> model instance, and all other Facility Data associated with the
+<code class="docutils literal"><span class="pre">Facility</span></code> and its <code class="docutils literal"><span class="pre">FacilityUsers</span></code>, inherits from
+<code class="docutils literal"><span class="pre">AbstractFacilityDataModel</span></code>, which has a <code class="docutils literal"><span class="pre">dataset</span></code> field that foreign keys
+onto a common <code class="docutils literal"><span class="pre">FacilityDataset</span></code> instance. This makes it easy to check, for
+purposes of permissions or filtering data for synchronization, which instances
+are part of a particular Facility Dataset. The <code class="docutils literal"><span class="pre">dataset</span></code> field is
+automatically set during the <code class="docutils literal"><span class="pre">save</span></code> method, by calling the <code class="docutils literal"><span class="pre">infer_dataset</span></code>
+method, which must be overridden in every subclass of
+<code class="docutils literal"><span class="pre">AbstractFacilityDataModel</span></code> to return the dataset to associate with that
+instance.</p>
+</div>
+<div class="section" id="efficient-hierarchy-calculations">
+<h2>Efficient Hierarchy Calculations<a class="headerlink" href="#efficient-hierarchy-calculations" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>In order to make decisions about whether a user has a certain permission for
+an object, we need an efficient way to retrieve the set of roles the user has
+in relation to that object. This involves traversing the Role table,
+Collection hierarchy, and possibly the Membership table, but we can delegate
+most of the work to the database engine (and leverage efficient hierarchy
+lookups afforded by MPTT). The following algorithms and explanations will
+refer to the naming in the following diagram:</p>
+<img alt="../../_images/uap_role_membership_queries.svg" src="../../_images/uap_role_membership_queries.svg" /><p>In pseudocode, the query for &#8220;What Roles does Source User have in relation to
+Target User?&#8221; would be implemented in the following way:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Fetch</span> <span class="nb">all</span> <span class="n">Roles</span> <span class="k">with</span><span class="p">:</span>
+    <span class="n">User</span><span class="p">:</span> <span class="n">Source</span> <span class="n">User</span>
+    <span class="n">Collection</span><span class="p">:</span> <span class="n">Ancestor</span> <span class="n">Collection</span>
+<span class="n">For</span> <span class="n">which</span> <span class="n">there</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">Membership</span> <span class="k">with</span><span class="p">:</span>
+    <span class="n">User</span><span class="p">:</span> <span class="n">Target</span> <span class="n">User</span>
+    <span class="n">Collection</span><span class="p">:</span> <span class="n">Descendant</span> <span class="n">Collection</span>
+<span class="n">And</span> <span class="n">where</span><span class="p">:</span>
+    <span class="n">Ancestor</span> <span class="n">Collection</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">ancestor</span> <span class="n">of</span> <span class="p">(</span><span class="ow">or</span> <span class="n">equal</span> <span class="n">to</span><span class="p">)</span> <span class="n">Descendant</span> <span class="n">Collection</span>
+</pre></div>
+</div>
+<p>At the database level, this can be written in the following way, as a single
+multi-table SQL query:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">DISTINCT</span>
+    <span class="n">source_role</span><span class="o">.</span><span class="n">kind</span>
+<span class="n">FROM</span>
+    <span class="n">collection_table</span> <span class="n">AS</span> <span class="n">ancestor_coll</span><span class="p">,</span>
+    <span class="n">collection_table</span> <span class="n">AS</span> <span class="n">descendant_coll</span><span class="p">,</span>
+    <span class="n">role_table</span><span class="p">,</span>
+    <span class="n">membership_table</span>
+<span class="n">WHERE</span>
+    <span class="n">role_table</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="p">{</span><span class="n">source_user_id</span><span class="p">}</span> <span class="n">AND</span>
+    <span class="n">role_table</span><span class="o">.</span><span class="n">collection_id</span> <span class="o">=</span> <span class="n">ancestor_coll</span><span class="o">.</span><span class="n">id</span> <span class="n">AND</span>
+    <span class="n">membership_table</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="p">{</span><span class="n">target_user_id</span><span class="p">}</span>
+    <span class="n">membership_table</span><span class="o">.</span><span class="n">collection_id</span> <span class="o">=</span> <span class="n">descendant_coll</span><span class="o">.</span><span class="n">id</span> <span class="n">AND</span>
+    <span class="n">descendant_coll</span><span class="o">.</span><span class="n">lft</span> <span class="n">BETWEEN</span> <span class="n">ancestor_coll</span><span class="o">.</span><span class="n">lft</span> <span class="n">AND</span> <span class="n">ancestor_coll</span><span class="o">.</span><span class="n">rght</span> <span class="n">AND</span>
+    <span class="n">descendant_coll</span><span class="o">.</span><span class="n">tree_id</span> <span class="o">=</span> <span class="n">ancestor_coll</span><span class="o">.</span><span class="n">tree_id</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Similarly, performing a queryset filter like &#8220;give me all <code class="docutils literal"><span class="pre">ContentLogs</span></code>
+associated with <code class="docutils literal"><span class="pre">FacilityUsers</span></code> for which Source User has an admin role&#8221; can
+be written as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span>
+    <span class="n">contentlog_table</span><span class="o">.*</span>
+<span class="n">FROM</span>
+    <span class="n">contentlog_table</span>
+<span class="n">WHERE</span> <span class="n">EXISTS</span>
+    <span class="p">(</span><span class="n">SELECT</span>
+         <span class="o">*</span>
+     <span class="n">FROM</span>
+         <span class="n">collection_table</span> <span class="n">AS</span> <span class="n">ancestor_coll</span><span class="p">,</span>
+         <span class="n">collection_table</span> <span class="n">AS</span> <span class="n">descendant_coll</span><span class="p">,</span>
+         <span class="n">role_table</span><span class="p">,</span>
+         <span class="n">membership_table</span>
+     <span class="n">WHERE</span>
+         <span class="n">role_table</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="p">{</span><span class="n">source_user_id</span><span class="p">}</span> <span class="n">AND</span>
+         <span class="n">role_table</span><span class="o">.</span><span class="n">collection_id</span> <span class="o">=</span> <span class="n">ancestor_coll</span><span class="o">.</span><span class="n">id</span> <span class="n">AND</span>
+         <span class="n">membership_table</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">contentlog_table</span><span class="o">.</span><span class="n">user_id</span>
+         <span class="n">membership_table</span><span class="o">.</span><span class="n">collection_id</span> <span class="o">=</span> <span class="n">descendant_coll</span><span class="o">.</span><span class="n">id</span> <span class="n">AND</span>
+         <span class="n">descendant_coll</span><span class="o">.</span><span class="n">lft</span> <span class="n">BETWEEN</span> <span class="n">ancestor_coll</span><span class="o">.</span><span class="n">lft</span> <span class="n">AND</span> <span class="n">ancestor_coll</span><span class="o">.</span><span class="n">rght</span> <span class="n">AND</span>
+         <span class="n">descendant_coll</span><span class="o">.</span><span class="n">tree_id</span> <span class="o">=</span> <span class="n">ancestor_coll</span><span class="o">.</span><span class="n">tree_id</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Note the <code class="docutils literal"><span class="pre">membership_table.user_id</span> <span class="pre">=</span> <span class="pre">contentlog_table.user_id</span></code> condition,
+which links the role-membership-collection hierarchy subquery into the main
+query. We refer to this condition as the &#8220;anchor&#8221;.</p>
+<p>To facilitate making queries that leverage the role-membership-collection
+hierarchy, without needing to write custom SQL each time, we have implemented
+a <code class="docutils literal"><span class="pre">HierarchyRelationsFilter</span></code> helper class. The class is instantiated by
+passing in a queryset, and then exposes a <code class="docutils literal"><span class="pre">filter_by_hierarchy</span></code> method that
+allows various parts of the role-membership-collection hierarchy to be
+constrained, and anchored back into the queryset&#8217;s main table. It then returns
+a filtered queryset (with appropriate conditions applied) upon which further
+filters or other queryset operations can be applied.</p>
+<p>The signature for <code class="docutils literal"><span class="pre">filter_by_hierarchy</span></code> is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">filter_by_hierarchy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">source_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">role_kind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">ancestor_collection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">descendant_collection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">target_user</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>With the exception of <code class="docutils literal"><span class="pre">role_kind</span></code> (which is either a string or list of
+strings, of role kinds), these parameters accept either:</p>
+<ul class="simple">
+<li>A model instance (either a <code class="docutils literal"><span class="pre">FacilityUser</span></code> or a <code class="docutils literal"><span class="pre">Collection</span></code> subclass,
+as appropriate) or its ID</li>
+<li>An <a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/expressions/#f-expressions">F expression</a> that anchors some part of the hierarchy back into the
+base queryset model (the simplest usage is just to put the name of a field
+from the base model in the <code class="docutils literal"><span class="pre">F</span></code> function, but you can also indirectly reference
+fields of related models, e.g. <code class="docutils literal"><span class="pre">F(&quot;collection__parent&quot;)</span></code>)</li>
+</ul>
+<p>For example, the <code class="docutils literal"><span class="pre">ContentLog</span></code> query described above (&#8220;give me all
+<code class="docutils literal"><span class="pre">ContentLogs</span></code> associated with <code class="docutils literal"><span class="pre">FacilityUsers</span></code> for which Source User has an
+admin role&#8221;) can be implemented as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">contentlogs</span> <span class="o">=</span> <span class="n">HierarchyRelationsFilter</span><span class="p">(</span><span class="n">ContentLog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">())</span><span class="o">.</span><span class="n">filter_by_hierarchy</span><span class="p">(</span>
+    <span class="n">source_user</span><span class="o">=</span><span class="n">my_source_user</span><span class="p">,</span>  <span class="c1"># specify the specific user to be the source user</span>
+    <span class="n">role_kind</span><span class="o">=</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,</span>  <span class="c1"># make sure the Role is an admin role</span>
+    <span class="n">target_user</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">),</span>  <span class="c1"># anchor the target user to the &quot;user&quot; field of the ContentLog model</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="managing-roles-and-memberships">
+<h2>Managing Roles and Memberships<a class="headerlink" href="#managing-roles-and-memberships" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>User and <code class="docutils literal"><span class="pre">Collection</span></code> models have various helper methods for retrieving and
+modifying roles and memberships:</p>
+<ul class="simple">
+<li>To get all the members of a collection (including those of its descendant
+collections), use <code class="docutils literal"><span class="pre">Collection.get_members()</span></code>.</li>
+<li>To add or remove roles/memberships, use the <code class="docutils literal"><span class="pre">add_role</span></code>, <code class="docutils literal"><span class="pre">remove_role</span></code>,
+<code class="docutils literal"><span class="pre">add_member</span></code>, and <code class="docutils literal"><span class="pre">remove_member</span></code> methods of <code class="docutils literal"><span class="pre">Collection</span></code> (or the
+additional convenience methods, such as <code class="docutils literal"><span class="pre">add_admin</span></code>, that exist on the
+proxy models).</li>
+<li>To check whether a user is a member of a <code class="docutils literal"><span class="pre">Collection</span></code>, use
+<code class="docutils literal"><span class="pre">KolibriAbstractBaseUser.is_member_of</span></code> (for <code class="docutils literal"><span class="pre">DeviceOwner</span></code>, this always
+returns <code class="docutils literal"><span class="pre">False</span></code>)</li>
+<li>To check whether a user has a particular kind of role for a collection or
+another user, use the <code class="docutils literal"><span class="pre">has_role_for_collection</span></code> and <code class="docutils literal"><span class="pre">has_role_for_user</span></code>
+methods of <code class="docutils literal"><span class="pre">KolibriAbstractBaseUser</span></code>.</li>
+<li>To list all role kinds a user has for a collection or another user, use the
+<code class="docutils literal"><span class="pre">get_roles_for_collection</span></code> and <code class="docutils literal"><span class="pre">get_roles_for_user</span></code> methods of
+<code class="docutils literal"><span class="pre">KolibriAbstractBaseUser</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="encoding-permission-rules">
+<span id="my-reference-label"></span><h2>Encoding Permission Rules<a class="headerlink" href="#encoding-permission-rules" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>We need to associate a particular set of rules with each model, to specify the
+permissions that users should have in relation to instances of that model.
+While not all models have the same rules, there are some broad categories of
+models that do share the same rules (e.g. ContentInteractionLog,
+ContentSummaryLog, and UserSessionLog &#8211; collectively, &#8220;User Log Data&#8221;).
+Hence, it is useful to encapsulate a permissions &#8220;class&#8221; that can be reused
+across models, and extended (through inheritance) if slightly different
+behavior is needed. These classes of permissions are defined as Python classes
+that inherit from kolibri.auth.permissions.base.BasePermissions, which defines
+the following overridable methods:</p>
+<ul class="simple">
+<li>The following four Boolean (True/False) permission checks, corresponding to
+the &#8220;CRUD&#8221; operations:
+- <code class="docutils literal"><span class="pre">user_can_create_object</span></code>
+- <code class="docutils literal"><span class="pre">user_can_read_object</span></code>
+- <code class="docutils literal"><span class="pre">user_can_update_object</span></code>
+- <code class="docutils literal"><span class="pre">user_can_delete_object</span></code></li>
+<li>The queryset-filtering <code class="docutils literal"><span class="pre">readable_by_user_filter</span></code> method, which takes in a
+queryset and returns a queryset filtered down to just objects that should be
+readable by the user.</li>
+</ul>
+</div>
+<div class="section" id="associating-permissions-with-models">
+<h2>Associating Permissions with Models<a class="headerlink" href="#associating-permissions-with-models" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>A model is associated with a particular permissions class through a
+&#8220;permissions&#8221; attribute defined on the top level of the model class,
+referencing an instance of a Permissions class (a class that subclasses
+<code class="docutils literal"><span class="pre">BasePermissions</span></code>). For example, to specify that a model
+<code class="docutils literal"><span class="pre">ContentSummaryLog</span></code> should draw its permissions rules from the
+<code class="docutils literal"><span class="pre">UserLogPermissions</span></code> class, modify the model definition as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ContentSummaryLog</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">permissions</span> <span class="o">=</span> <span class="n">UserLogPermissions</span><span class="p">()</span>
+
+    <span class="o">&lt;</span><span class="n">remainder</span> <span class="n">of</span> <span class="n">model</span> <span class="n">definition</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specifying-role-based-permissions">
+<h2>Specifying Role-Based Permissions<a class="headerlink" href="#specifying-role-based-permissions" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Defining a custom Permissions class and overriding its methods allows for
+arbitrary logic to be used in defining the rules governing the permissions,
+but many cases can be covered by more constrained rule specifications. In
+particular, the rules for many models can be specified in terms of the role-
+based permissions system described above. A built-in subclass of
+<code class="docutils literal"><span class="pre">BasePermissions</span></code>, called <code class="docutils literal"><span class="pre">RoleBasedPermissions</span></code>, makes this easy.
+Creating an instance of <code class="docutils literal"><span class="pre">RoleBasedPermissions</span></code> involves passing in the
+following parameters:</p>
+<ul class="simple">
+<li>Tuples of role kinds that should be granted each of the CRUD permissions,
+encoded in the following parameters: <code class="docutils literal"><span class="pre">can_be_created_by</span></code>, <code class="docutils literal"><span class="pre">can_be_read_by</span></code>,
+<code class="docutils literal"><span class="pre">can_be_updated_by</span></code>, <code class="docutils literal"><span class="pre">can_be_deleted_by</span></code>.</li>
+<li>The <code class="docutils literal"><span class="pre">target_field</span></code> parameter that determines the &#8220;target&#8221; object for the
+role-checking; this should be the name of a field on the model that foreign
+keys either onto a <code class="docutils literal"><span class="pre">FacilityUser</span></code> or a <code class="docutils literal"><span class="pre">Collection</span></code>. If the model we&#8217;re
+checking permissions for is itself the target, then <code class="docutils literal"><span class="pre">target_field</span></code> may be
+<code class="docutils literal"><span class="pre">&quot;.&quot;</span></code>.</li>
+</ul>
+<p>An example, showing that read permissions should be granted to a coach or
+admin for the user referred to by the model&#8217;s &#8220;user&#8221; field. Similarly, write
+permissions should only be available to an admin for the user:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">UserLog</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">permissions</span> <span class="o">=</span> <span class="n">RoleBasedPermissions</span><span class="p">(</span>
+        <span class="n">target_field</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="n">can_be_created_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,),</span>
+        <span class="n">can_be_read_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">COACH</span><span class="p">,</span> <span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">),</span>
+        <span class="n">can_be_updated_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,),</span>
+        <span class="n">can_be_deleted_by</span><span class="o">=</span><span class="p">(</span><span class="n">role_kinds</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">,),</span>
+    <span class="p">)</span>
+
+    <span class="o">&lt;</span><span class="n">remainder</span> <span class="n">of</span> <span class="n">model</span> <span class="n">definition</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="built-in-permissions-classes">
+<h2>Built-in Permissions Classes<a class="headerlink" href="#built-in-permissions-classes" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Some common rules are encapsulated by the permissions classes in
+<code class="docutils literal"><span class="pre">kolibri.auth.permissions.general</span></code>. These include:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">IsOwn</span></code>: only allows access to the object if the object belongs to the
+requesting user (in other words, if the object has a specific field,
+<code class="docutils literal"><span class="pre">field_name</span></code>, that foreign keys onto the user)</li>
+<li><code class="docutils literal"><span class="pre">IsFromSameFacility</span></code>: only allows access to object if user is associated
+with the same facility as the object</li>
+<li><code class="docutils literal"><span class="pre">IsSelf</span></code>: only allows access to the object if the object <em>is</em> the user</li>
+</ul>
+<p>A general pattern with these provided classes is to allow an argument called
+<code class="docutils literal"><span class="pre">read_only</span></code>, which means that rather than allowing both write (create,
+update, delete) and read permissions, they will only grant read permission.
+So, for example, <code class="docutils literal"><span class="pre">IsFromSameFacility(read_only=True)</span></code> will allow any user
+from the same facility to read the model, but not to write to it, whereas
+<code class="docutils literal"><span class="pre">IsFromSameFacility(read_only=False)</span></code> or <code class="docutils literal"><span class="pre">IsFromSameFacility()</span></code> would
+allow both.</p>
+</div>
+<div class="section" id="combining-permissions-classes">
+<h2>Combining Permissions Classes<a class="headerlink" href="#combining-permissions-classes" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>In many cases, it may be necessary to combine multiple permission classes
+together to define the ruleset that you want. This can be done using the
+Boolean operators <code class="docutils literal"><span class="pre">|</span></code> (OR) and <code class="docutils literal"><span class="pre">&amp;</span></code> (AND). So, for example,
+<code class="docutils literal"><span class="pre">IsOwn(field_name=&quot;user&quot;)</span> <span class="pre">|</span> <span class="pre">IsSelf()</span></code> would allow access to the model if
+either the model has a foreign key named &#8220;user&#8221; that points to the user, or
+the model is <em>itself</em> the user model. Combining two permission classes with
+<code class="docutils literal"><span class="pre">&amp;</span></code>, on the other hand, means both classes must return <code class="docutils literal"><span class="pre">True</span></code> for a
+permission to be granted. Note that permissions classes combined in this way
+still support the <code class="docutils literal"><span class="pre">readable_by_user_filter</span></code> method, returning a queryset
+that is either the union (for <code class="docutils literal"><span class="pre">|</span></code>) or intersection (<code class="docutils literal"><span class="pre">&amp;</span></code>) of the querysets
+that were returned by each of the permissions classes.</p>
+</div>
+<div class="section" id="checking-permissions">
+<h2>Checking Permissions<a class="headerlink" href="#checking-permissions" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Checking whether a user has permission to perform a CRUD operation on an
+object involves calling the appropriate methods on the
+<code class="docutils literal"><span class="pre">KolibriAbstractBaseUser</span></code> (<code class="docutils literal"><span class="pre">FacilityUser</span></code> or <code class="docutils literal"><span class="pre">DeviceOwner</span></code>) instance.
+For instance, to check whether request.user has delete permission for
+<code class="docutils literal"><span class="pre">ContentSummaryLog</span></code> instance log_obj, you could do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">can_delete</span><span class="p">(</span><span class="n">log_obj</span><span class="p">):</span>
+    <span class="n">log_obj</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Checking whether a user can create an object is slightly different, as you may
+not yet have an instance of the model. Instead, pass in the model class and a
+<code class="docutils literal"><span class="pre">dict</span></code> of the data that you want to create it with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;content_id&quot;</span><span class="p">:</span> <span class="s2">&quot;qq123&quot;</span><span class="p">}</span>
+<span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">can_create</span><span class="p">(</span><span class="n">ContentSummaryLog</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="n">ContentSummaryLog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To efficiently filter a queryset so that it only includes records that the
+user should have permission to read (to make sure you&#8217;re not sending them data
+they shouldn&#8217;t be able to access), use the <code class="docutils literal"><span class="pre">filter_readable</span></code> method:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">all_results</span> <span class="o">=</span> <span class="n">ContentSummaryLog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">content_id</span><span class="o">=</span><span class="s2">&quot;qq123&quot;</span><span class="p">)</span>
+<span class="n">permitted_results</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">filter_readable</span><span class="p">(</span><span class="n">all_results</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that for the <code class="docutils literal"><span class="pre">DeviceOwner</span></code> model, these methods will simply return
+<code class="docutils literal"><span class="pre">True</span></code> (or unfiltered querysets), as device owners are considered
+superusers. For the <code class="docutils literal"><span class="pre">FacilityUser</span></code> model, they defer to the permissions
+encoded in the <code class="docutils literal"><span class="pre">permission</span></code> object on the model class.</p>
+</div>
+<div class="section" id="using-kolibri-permissions-with-django-rest-framework">
+<h2>Using Kolibri Permissions with Django REST Framework<a class="headerlink" href="#using-kolibri-permissions-with-django-rest-framework" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>There are two classes that make it simple to leverage the permissions system
+described above within a Django REST Framework <code class="docutils literal"><span class="pre">ViewSet</span></code>, to restrict
+permissions appropriately on API endpoints, based on the currently logged-in
+user.</p>
+<p><code class="docutils literal"><span class="pre">KolibriAuthPermissions</span></code> is a subclass of
+<code class="docutils literal"><span class="pre">rest_framework.permissions.BasePermission</span></code> that defers to our
+<code class="docutils literal"><span class="pre">KolibriAbstractBaseUser</span></code> permissions interface methods for determining
+which object-level permissions to grant to the current user:</p>
+<ul class="simple">
+<li>Permissions for &#8216;POST&#8217; are based on <code class="docutils literal"><span class="pre">request.user.can_create</span></code></li>
+<li>Permissions for &#8216;GET&#8217;, &#8216;OPTIONS&#8217; and &#8216;HEAD&#8217; are based on <code class="docutils literal"><span class="pre">request.user.can_read</span></code>
+(Note that adding <code class="docutils literal"><span class="pre">KolibriAuthPermissions</span></code> only checks object-level permissions,
+and does not filter queries made against a list view; see
+<code class="docutils literal"><span class="pre">KolibriAuthPermissionsFilter</span></code> below)</li>
+<li>Permissions for &#8216;PUT&#8217; and &#8216;PATCH&#8217; are based on <code class="docutils literal"><span class="pre">request.user.can_update</span></code></li>
+<li>Permissions for &#8216;DELETE&#8217; are based on <code class="docutils literal"><span class="pre">request.user.can_delete</span></code></li>
+</ul>
+<p><code class="docutils literal"><span class="pre">KolibriAuthPermissions</span></code> is a subclass of
+<code class="docutils literal"><span class="pre">rest_framework.filters.BaseFilterBackend</span></code> that filters list views to include
+only records for which the current user has read permissions. This only applies to
+&#8216;GET&#8217; requests.</p>
+<p>For example, to use the Kolibri permissions system to restrict permissions for an
+API endpoint providing access to a <code class="docutils literal"><span class="pre">ContentLog</span></code> model, you would do the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">kolibri.auth.api</span> <span class="k">import</span> <span class="n">KolibriAuthPermissions</span><span class="p">,</span> <span class="n">KolibriAuthPermissionsFilter</span>
+
+<span class="k">class</span> <span class="nc">FacilityViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">(</span><span class="n">KolibriAuthPermissions</span><span class="p">,)</span>
+    <span class="n">filter_backends</span> <span class="o">=</span> <span class="p">(</span><span class="n">KolibriAuthPermissionsFilter</span><span class="p">,)</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ContentLog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ContentLogSerializer</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../user_management.html" class="btn btn-neutral float-right" title="User Management" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="concepts_and_definitions.html" class="btn btn-neutral" title="Concepts and Definitions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

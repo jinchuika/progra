@@ -1,0 +1,935 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Users, Authentication, and Permissions &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../index.html"/>
+        <link rel="up" title="Developer Guide" href="index.html"/>
+        <link rel="next" title="Concepts and Definitions" href="uap/concepts_and_definitions.html"/>
+        <link rel="prev" title="Distribution and installers" href="building.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#architecture">Architecture</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stack.html">Tech Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building.html">Distribution and installers</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Users, Authentication, and Permissions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="uap/concepts_and_definitions.html">Concepts and Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uap/implementation.html">Implementation Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models">Models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html">Front-end Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asset_loading.html">Front-end Asset Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html">Project Conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Users, Authentication, and Permissions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/uap.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="users-authentication-and-permissions">
+<h1>Users, Authentication, and Permissions<a class="headerlink" href="#users-authentication-and-permissions" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>This is a core module found in <code class="docutils literal"><span class="pre">kolibri/auth</span></code>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="uap/concepts_and_definitions.html">Concepts and Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uap/implementation.html">Implementation Details</a></li>
+</ul>
+</div>
+<div class="section" id="models">
+<h2>Models<a class="headerlink" href="#models" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>We have four main abstractions: Users, Collections, Memberships, and Roles.</p>
+<p>Users represent people, like students in a school, teachers for a classroom, or volunteers setting up informal
+installations. There are two main user types, <code class="docutils literal"><span class="pre">FacilityUser</span></code> and <code class="docutils literal"><span class="pre">DeviceOwner</span></code>. A <code class="docutils literal"><span class="pre">FacilityUser</span></code> belongs to a
+particular facility, and has permissions only with respect to other data that is associated with that facility. A
+<code class="docutils literal"><span class="pre">DeviceOwner</span></code> is not associated with a particular facility, and has global permissions for data on the local device.
+<code class="docutils literal"><span class="pre">FacilityUser</span></code> accounts (like other facility data) may be synced across multiple devices, whereas a DeviceOwner account
+is specific to a single installation of Kolibri.</p>
+<p>Collections form a hierarchy, with Collections able to belong to other Collections. Collections are subdivided
+into several pre-defined levels (<code class="docutils literal"><span class="pre">Facility</span></code> &gt; <code class="docutils literal"><span class="pre">Classroom</span></code> &gt; <code class="docutils literal"><span class="pre">LearnerGroup</span></code>).</p>
+<p>A <code class="docutils literal"><span class="pre">FacilityUser</span></code> (but not a <code class="docutils literal"><span class="pre">DeviceOwner</span></code>) can be marked as a member of a <code class="docutils literal"><span class="pre">Collection</span></code> through a <code class="docutils literal"><span class="pre">Membership</span></code>
+object. Being a member of a Collection also means being a member of all the Collections above that Collection in the
+hierarchy.</p>
+<p>Another way in which a <code class="docutils literal"><span class="pre">FacilityUser</span></code> can be associated with a particular <code class="docutils literal"><span class="pre">Collection</span></code> is through a <code class="docutils literal"><span class="pre">Role</span></code>
+object, which grants the user a role with respect to the <code class="docutils literal"><span class="pre">Collection</span></code> and all the collections below it. A <code class="docutils literal"><span class="pre">Role</span></code>
+object also stores the &#8220;kind&#8221; of the role (currently, one of &#8220;admin&#8221; or &#8220;coach&#8221;), which affects what permissions the
+user gains through the <code class="docutils literal"><span class="pre">Role</span></code>.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">AbstractFacilityDataModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#AbstractFacilityDataModel"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Base model for Kolibri &#8220;Facility Data&#8221;, which is data that is specific to a particular <code class="docutils literal"><span class="pre">Facility</span></code>,
+such as <code class="docutils literal"><span class="pre">FacilityUsers</span></code>, <code class="docutils literal"><span class="pre">Collections</span></code>, and other data associated with those users and collections.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>dataset_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">FacilityDataset</span></code>) &#8211; Dataset</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">ensure_dataset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#AbstractFacilityDataModel.ensure_dataset"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>If no dataset has yet been specified, try to infer it. If a dataset has already been specified, to prevent
+inconsistencies, make sure it matches the inferred dataset, otherwise raise a <code class="docutils literal"><span class="pre">KolibriValidationError</span></code>.
+If we have no dataset and it can&#8217;t be inferred, we raise a <code class="docutils literal"><span class="pre">KolibriValidationError</span></code> exception as well.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">infer_dataset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#AbstractFacilityDataModel.infer_dataset"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>This method is used by <cite>ensure_dataset</cite> to &#8220;infer&#8221; which dataset should be associated with this instance.
+It should be overridden in any subclass of <code class="docutils literal"><span class="pre">AbstractFacilityDataModel</span></code>, to define a model-specific inference.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">Classroom</code><span class="sig-paren">(</span><em>id</em>, <em>dataset</em>, <em>name</em>, <em>parent</em>, <em>kind</em>, <em>lft</em>, <em>rght</em>, <em>tree_id</em>, <em>level</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Classroom"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>dataset_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Dataset</li>
+<li><strong>name</strong> (<em>CharField</em>) &#8211; Name</li>
+<li><strong>parent_id</strong> (TreeForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Parent</li>
+<li><strong>kind</strong> (<em>CharField</em>) &#8211; Kind</li>
+<li><strong>lft</strong> (<em>PositiveIntegerField</em>) &#8211; Lft</li>
+<li><strong>rght</strong> (<em>PositiveIntegerField</em>) &#8211; Rght</li>
+<li><strong>tree_id</strong> (<em>PositiveIntegerField</em>) &#8211; Tree id</li>
+<li><strong>level</strong> (<em>PositiveIntegerField</em>) &#8211; Level</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">get_facility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Classroom.get_facility"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Gets the <code class="docutils literal"><span class="pre">Classroom</span></code>&#8216;s parent <code class="docutils literal"><span class="pre">Facility</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">A <code class="docutils literal"><span class="pre">Facility</span></code> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_learner_groups</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Classroom.get_learner_groups"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Returns a <code class="docutils literal"><span class="pre">QuerySet</span></code> of <code class="docutils literal"><span class="pre">LearnerGroups</span></code> associated with this <code class="docutils literal"><span class="pre">Classroom</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">A <code class="docutils literal"><span class="pre">LearnerGroup</span></code> <code class="docutils literal"><span class="pre">QuerySet</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">Collection</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Collection"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p><code class="docutils literal"><span class="pre">Collections</span></code> are hierarchical groups of <code class="docutils literal"><span class="pre">FacilityUsers</span></code>, used for grouping users and making decisions about permissions.
+<code class="docutils literal"><span class="pre">FacilityUsers</span></code> can have roles for one or more <code class="docutils literal"><span class="pre">Collections</span></code>, by way of obtaining <code class="docutils literal"><span class="pre">Roles</span></code> associated with those <code class="docutils literal"><span class="pre">Collections</span></code>.
+<code class="docutils literal"><span class="pre">Collections</span></code> can belong to other <code class="docutils literal"><span class="pre">Collections</span></code>, and user membership in a <code class="docutils literal"><span class="pre">Collection</span></code> is conferred through <code class="docutils literal"><span class="pre">Memberships</span></code>.
+<code class="docutils literal"><span class="pre">Collections</span></code> are subdivided into several pre-defined levels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>dataset_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Dataset</li>
+<li><strong>name</strong> (<em>CharField</em>) &#8211; Name</li>
+<li><strong>parent_id</strong> (TreeForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Parent</li>
+<li><strong>kind</strong> (<em>CharField</em>) &#8211; Kind</li>
+<li><strong>lft</strong> (<em>PositiveIntegerField</em>) &#8211; Lft</li>
+<li><strong>rght</strong> (<em>PositiveIntegerField</em>) &#8211; Rght</li>
+<li><strong>tree_id</strong> (<em>PositiveIntegerField</em>) &#8211; Tree id</li>
+<li><strong>level</strong> (<em>PositiveIntegerField</em>) &#8211; Level</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">add_member</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Collection.add_member"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Create a <code class="docutils literal"><span class="pre">Membership</span></code> associating the provided user with this <code class="docutils literal"><span class="pre">Collection</span></code>.
+If the <code class="docutils literal"><span class="pre">Membership</span></code> object already exists, just return that, without changing anything.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>user</strong> &#8211; The <code class="docutils literal"><span class="pre">FacilityUser</span></code> to add to this <code class="docutils literal"><span class="pre">Collection</span></code>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">The <code class="docutils literal"><span class="pre">Membership</span></code> object (possibly new) that associates the user with the <code class="docutils literal"><span class="pre">Collection</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">add_role</code><span class="sig-paren">(</span><em>user</em>, <em>role_kind</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Collection.add_role"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Create a <code class="docutils literal"><span class="pre">Role</span></code> associating the provided user with this collection, with the specified kind of role.
+If the Role object already exists, just return that, without changing anything.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>user</strong> &#8211; The <code class="docutils literal"><span class="pre">FacilityUser</span></code> to associate with this <code class="docutils literal"><span class="pre">Collection</span></code>.</li>
+<li><strong>role_kind</strong> &#8211; The kind of role to give the user with respect to this <code class="docutils literal"><span class="pre">Collection</span></code>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">The <code class="docutils literal"><span class="pre">Role</span></code> object (possibly new) that associates the user with the <code class="docutils literal"><span class="pre">Collection</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">remove_member</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Collection.remove_member"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Remove any <code class="docutils literal"><span class="pre">Membership</span></code> objects associating the provided user with this <code class="docutils literal"><span class="pre">Collection</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>user</strong> &#8211; The <code class="docutils literal"><span class="pre">FacilityUser</span></code> to remove from this <code class="docutils literal"><span class="pre">Collection</span></code>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if a <code class="docutils literal"><span class="pre">Membership</span></code> was removed, <code class="docutils literal"><span class="pre">False</span></code> if there was no matching <code class="docutils literal"><span class="pre">Membership</span></code> to remove.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">remove_role</code><span class="sig-paren">(</span><em>user</em>, <em>role_kind</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Collection.remove_role"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Remove any <code class="docutils literal"><span class="pre">Role</span></code> objects associating the provided user with this <code class="docutils literal"><span class="pre">Collection</span></code>, with the specified kind of role.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user</strong> &#8211; The <code class="docutils literal"><span class="pre">FacilityUser</span></code> to dissociate from this <code class="docutils literal"><span class="pre">Collection</span></code> (for the specific role kind).</li>
+<li><strong>role_kind</strong> &#8211; The kind of role to remove from the user with respect to this <code class="docutils literal"><span class="pre">Collection</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">DeviceOwner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#DeviceOwner"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>When a user first installs Kolibri on a device, they will be prompted to create a <code class="docutils literal"><span class="pre">DeviceOwner</span></code>, a special kind of
+user which is associated with that device only, and who must give permission to make broad changes to the Kolibri
+installation on that device (such as creating a <code class="docutils literal"><span class="pre">Facility</span></code>, or changing configuration settings).</p>
+<p>Actions not relating to user data but specifically to a device &#8211; like upgrading Kolibri, changing whether the
+device is a Classroom Server or Classroom Client, or determining manually which data should be synced &#8211; must be
+performed by a <code class="docutils literal"><span class="pre">DeviceOwner</span></code>.</p>
+<p>A <code class="docutils literal"><span class="pre">DeviceOwner</span></code> is a superuser, and has full access to do anything she wants with data on the device.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>password</strong> (<em>CharField</em>) &#8211; Password</li>
+<li><strong>last_login</strong> (<em>DateTimeField</em>) &#8211; Last login</li>
+<li><strong>username</strong> (<em>CharField</em>) &#8211; Required. 30 characters or fewer. Letters and digits only.</li>
+<li><strong>first_name</strong> (<em>CharField</em>) &#8211; First name</li>
+<li><strong>last_name</strong> (<em>CharField</em>) &#8211; Last name</li>
+<li><strong>date_joined</strong> (<em>DateTimeField</em>) &#8211; Date joined</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">Facility</code><span class="sig-paren">(</span><em>id</em>, <em>dataset</em>, <em>name</em>, <em>parent</em>, <em>kind</em>, <em>lft</em>, <em>rght</em>, <em>tree_id</em>, <em>level</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Facility"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>dataset_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Dataset</li>
+<li><strong>name</strong> (<em>CharField</em>) &#8211; Name</li>
+<li><strong>parent_id</strong> (TreeForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Parent</li>
+<li><strong>kind</strong> (<em>CharField</em>) &#8211; Kind</li>
+<li><strong>lft</strong> (<em>PositiveIntegerField</em>) &#8211; Lft</li>
+<li><strong>rght</strong> (<em>PositiveIntegerField</em>) &#8211; Rght</li>
+<li><strong>tree_id</strong> (<em>PositiveIntegerField</em>) &#8211; Tree id</li>
+<li><strong>level</strong> (<em>PositiveIntegerField</em>) &#8211; Level</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">get_classrooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Facility.get_classrooms"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Returns a QuerySet of Classrooms under this Facility.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">A Classroom QuerySet.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">FacilityDataset</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#FacilityDataset"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p><code class="docutils literal"><span class="pre">FacilityDataset</span></code> stores high-level metadata and settings for a particular <code class="docutils literal"><span class="pre">Facility</span></code>. It is also the
+model that all models storing facility data (data that is associated with a particular facility, and that inherits
+from <code class="docutils literal"><span class="pre">AbstractFacilityDataModel</span></code>) foreign key onto, to indicate that they belong to this particular <code class="docutils literal"><span class="pre">Facility</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>description</strong> (<em>TextField</em>) &#8211; Description</li>
+<li><strong>location</strong> (<em>CharField</em>) &#8211; Location</li>
+<li><strong>allow_signups</strong> (<em>BooleanField</em>) &#8211; Allow signups</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">FacilityUser</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#FacilityUser"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p><code class="docutils literal"><span class="pre">FacilityUser</span></code> is the fundamental object of the auth app. These users represent the main users, and can be associated
+with a hierarchy of <code class="docutils literal"><span class="pre">Collections</span></code> through <code class="docutils literal"><span class="pre">Memberships</span></code> and <code class="docutils literal"><span class="pre">Roles</span></code>, which then serve to help determine permissions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>password</strong> (<em>CharField</em>) &#8211; Password</li>
+<li><strong>last_login</strong> (<em>DateTimeField</em>) &#8211; Last login</li>
+<li><strong>dataset_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Dataset</li>
+<li><strong>username</strong> (<em>CharField</em>) &#8211; Required. 30 characters or fewer. Letters and digits only.</li>
+<li><strong>first_name</strong> (<em>CharField</em>) &#8211; First name</li>
+<li><strong>last_name</strong> (<em>CharField</em>) &#8211; Last name</li>
+<li><strong>date_joined</strong> (<em>DateTimeField</em>) &#8211; Date joined</li>
+<li><strong>facility_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Facility</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">KolibriAbstractBaseUser</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Our custom user type, derived from <code class="docutils literal"><span class="pre">AbstractBaseUser</span></code> as described in the Django docs.
+Draws liberally from <code class="docutils literal"><span class="pre">django.contrib.auth.AbstractUser</span></code>, except we exclude some fields
+we don&#8217;t care about, like email.</p>
+<p>This model is an abstract model, and is inherited by both <code class="docutils literal"><span class="pre">FacilityUser</span></code> and <code class="docutils literal"><span class="pre">DeviceOwner</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>password</strong> (<em>CharField</em>) &#8211; Password</li>
+<li><strong>last_login</strong> (<em>DateTimeField</em>) &#8211; Last login</li>
+<li><strong>username</strong> (<em>CharField</em>) &#8211; Required. 30 characters or fewer. Letters and digits only.</li>
+<li><strong>first_name</strong> (<em>CharField</em>) &#8211; First name</li>
+<li><strong>last_name</strong> (<em>CharField</em>) &#8211; Last name</li>
+<li><strong>date_joined</strong> (<em>DateTimeField</em>) &#8211; Date joined</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">can_create</code><span class="sig-paren">(</span><em>Model</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.can_create"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Checks whether this user (self) has permission to create an instance of Model with the specified attributes (data).</p>
+<p>This method defers to the <code class="docutils literal"><span class="pre">can_create_instance</span></code> method, and in most cases should not itself be overridden.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>Model</strong> &#8211; A subclass of <code class="docutils literal"><span class="pre">django.db.models.Model</span></code></li>
+<li><strong>data</strong> &#8211; A <code class="docutils literal"><span class="pre">dict</span></code> of data to be used in creating an instance of the Model</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">True</span></code> if this user should have permission to create an instance of Model with the specified data, else <code class="docutils literal"><span class="pre">False</span></code>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">can_create_instance</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.can_create_instance"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Checks whether this user (self) has permission to create a particular model instance (obj).</p>
+<p>This method should be overridden by classes that inherit from <code class="docutils literal"><span class="pre">KolibriAbstractBaseUser</span></code>.</p>
+<p>In general, unless an instance has already been initialized, this method should not be called directly;
+instead, it should be preferred to call <code class="docutils literal"><span class="pre">can_create</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>obj</strong> &#8211; An (unsaved) instance of a Django model, to check permissions for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this user should have permission to create the object, otherwise <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">can_delete</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.can_delete"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Checks whether this user (self) has permission to delete a particular model instance (obj).</p>
+<p>This method should be overridden by classes that inherit from KolibriAbstractBaseUser.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>obj</strong> &#8211; An instance of a Django model, to check permissions for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this user should have permission to delete the object, otherwise <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">can_read</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.can_read"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Checks whether this user (self) has permission to read a particular model instance (obj).</p>
+<p>This method should be overridden by classes that inherit from <code class="docutils literal"><span class="pre">KolibriAbstractBaseUser</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>obj</strong> &#8211; An instance of a Django model, to check permissions for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this user should have permission to read the object, otherwise <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">can_update</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.can_update"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Checks whether this user (self) has permission to update a particular model instance (obj).</p>
+<p>This method should be overridden by classes that inherit from KolibriAbstractBaseUser.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>obj</strong> &#8211; An instance of a Django model, to check permissions for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this user should have permission to update the object, otherwise <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">filter_readable</code><span class="sig-paren">(</span><em>queryset</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.filter_readable"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Filters a queryset down to only the elements that this user should have permission to read.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>queryset</strong> &#8211; A <code class="docutils literal"><span class="pre">QuerySet</span></code> instance that the filtering should be applied to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">Filtered <code class="docutils literal"><span class="pre">QuerySet</span></code> including only elements that are readable by this user.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_roles_for</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.get_roles_for"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Helper function that defers to <code class="docutils literal"><span class="pre">get_roles_for_user</span></code> or <code class="docutils literal"><span class="pre">get_roles_for_collection</span></code> based on the type of object passed in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_roles_for_collection</code><span class="sig-paren">(</span><em>coll</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.get_roles_for_collection"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Determine all the roles this user has in relation to the specified <code class="docutils literal"><span class="pre">Collection</span></code>, and return a set containing the kinds of roles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>coll</strong> &#8211; The target <code class="docutils literal"><span class="pre">Collection</span></code> for which this user has the roles.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">The kinds of roles this user has with respect to the specified <code class="docutils literal"><span class="pre">Collection</span></code>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">set of <code class="docutils literal"><span class="pre">kolibri.auth.constants.role_kinds.*</span></code> strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_roles_for_user</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.get_roles_for_user"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Determine all the roles this user has in relation to the target user, and return a set containing the kinds of roles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>user</strong> &#8211; The target user for which this user has the roles.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">The kinds of roles this user has with respect to the target user.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">set of <code class="docutils literal"><span class="pre">kolibri.auth.constants.role_kinds.*</span></code> strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">has_role_for</code><span class="sig-paren">(</span><em>kinds</em>, <em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.has_role_for"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Helper function that defers to <code class="docutils literal"><span class="pre">has_role_for_user</span></code> or <code class="docutils literal"><span class="pre">has_role_for_collection</span></code> based on the type of object passed in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">has_role_for_collection</code><span class="sig-paren">(</span><em>kinds</em>, <em>coll</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.has_role_for_collection"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Determine whether this user has (at least one of) the specified role kind(s) in relation to the specified <code class="docutils literal"><span class="pre">Collection</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>kinds</strong> (<em>string from kolibri.auth.constants.role_kinds.*</em>) &#8211; The kind (or kinds) of role to check for, as a string or iterable.</li>
+<li><strong>coll</strong> &#8211; The target <code class="docutils literal"><span class="pre">Collection</span></code> for which this user has the roles.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">True</span></code> if this user has the specified role kind with respect to the target <code class="docutils literal"><span class="pre">Collection</span></code>, otherwise <code class="docutils literal"><span class="pre">False</span></code>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">has_role_for_user</code><span class="sig-paren">(</span><em>kinds</em>, <em>user</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.has_role_for_user"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Determine whether this user has (at least one of) the specified role kind(s) in relation to the specified user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>user</strong> &#8211; The user that is the target of the role (for which this user has the roles).</li>
+<li><strong>kinds</strong> (string from <code class="docutils literal"><span class="pre">kolibri.auth.constants.role_kinds.*</span></code>) &#8211; The kind (or kinds) of role to check for, as a string or iterable.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">True</span></code> if this user has the specified role kind with respect to the target user, otherwise <code class="docutils literal"><span class="pre">False</span></code>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">is_member_of</code><span class="sig-paren">(</span><em>coll</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAbstractBaseUser.is_member_of"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Determine whether this user is a member of the specified <code class="docutils literal"><span class="pre">Collection</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>coll</strong> &#8211; The <code class="docutils literal"><span class="pre">Collection</span></code> for which we are checking this user&#8217;s membership.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this user is a member of the specified <code class="docutils literal"><span class="pre">Collection</span></code>, otherwise False.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Tipo del valor devuelto:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">KolibriAnonymousUser</code><a class="reference internal" href="../_modules/kolibri/auth/models.html#KolibriAnonymousUser"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Custom anonymous user that also exposes the same interface as KolibriAbstractBaseUser, for consistency.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>password</strong> (<em>CharField</em>) &#8211; Password</li>
+<li><strong>last_login</strong> (<em>DateTimeField</em>) &#8211; Last login</li>
+<li><strong>username</strong> (<em>CharField</em>) &#8211; Required. 30 characters or fewer. Letters and digits only.</li>
+<li><strong>first_name</strong> (<em>CharField</em>) &#8211; First name</li>
+<li><strong>last_name</strong> (<em>CharField</em>) &#8211; Last name</li>
+<li><strong>date_joined</strong> (<em>DateTimeField</em>) &#8211; Date joined</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">LearnerGroup</code><span class="sig-paren">(</span><em>id</em>, <em>dataset</em>, <em>name</em>, <em>parent</em>, <em>kind</em>, <em>lft</em>, <em>rght</em>, <em>tree_id</em>, <em>level</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#LearnerGroup"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>dataset_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Dataset</li>
+<li><strong>name</strong> (<em>CharField</em>) &#8211; Name</li>
+<li><strong>parent_id</strong> (TreeForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Parent</li>
+<li><strong>kind</strong> (<em>CharField</em>) &#8211; Kind</li>
+<li><strong>lft</strong> (<em>PositiveIntegerField</em>) &#8211; Lft</li>
+<li><strong>rght</strong> (<em>PositiveIntegerField</em>) &#8211; Rght</li>
+<li><strong>tree_id</strong> (<em>PositiveIntegerField</em>) &#8211; Tree id</li>
+<li><strong>level</strong> (<em>PositiveIntegerField</em>) &#8211; Level</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">get_classroom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#LearnerGroup.get_classroom"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>Gets the <code class="docutils literal"><span class="pre">LearnerGroup</span></code>&#8216;s parent <code class="docutils literal"><span class="pre">Classroom</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">A <code class="docutils literal"><span class="pre">Classroom</span></code> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">Membership</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Membership"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>A <code class="docutils literal"><span class="pre">FacilityUser</span></code> can be marked as a member of a <code class="docutils literal"><span class="pre">Collection</span></code> through a <code class="docutils literal"><span class="pre">Membership</span></code> object. Being a member of a
+<code class="docutils literal"><span class="pre">Collection</span></code> also means being a member of all the <code class="docutils literal"><span class="pre">Collections</span></code> above that <code class="docutils literal"><span class="pre">Collection</span></code> in the tree (i.e. if you
+are a member of a <code class="docutils literal"><span class="pre">LearnerGroup</span></code>, you are also a member of the <code class="docutils literal"><span class="pre">Classroom</span></code> that contains that <code class="docutils literal"><span class="pre">LearnerGroup</span></code>,
+and of the <code class="docutils literal"><span class="pre">Facility</span></code> that contains that <code class="docutils literal"><span class="pre">Classroom</span></code>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>dataset_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Dataset</li>
+<li><strong>user_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; User</li>
+<li><strong>collection_id</strong> (TreeForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Collection</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">kolibri.auth.models.</code><code class="descname">Role</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kolibri/auth/models.html#Role"><span class="viewcode-link">[fuente]</span></a></dt>
+<dd><p>A <code class="docutils literal"><span class="pre">FacilityUser</span></code> can have a role for a particular <code class="docutils literal"><span class="pre">Collection</span></code> through a <code class="docutils literal"><span class="pre">Role</span></code> object, which also stores
+the &#8220;kind&#8221; of the <code class="docutils literal"><span class="pre">Role</span></code> (currently, one of &#8220;admin&#8221; or &#8220;coach&#8221;). Having a role for a <code class="docutils literal"><span class="pre">Collection</span></code> also
+implies having that role for all sub-collections of that <code class="docutils literal"><span class="pre">Collection</span></code> (i.e. all the <code class="docutils literal"><span class="pre">Collections</span></code> below it
+in the tree).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>dataset_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Dataset</li>
+<li><strong>user_id</strong> (ForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; User</li>
+<li><strong>collection_id</strong> (TreeForeignKey to <code class="xref py py-class docutils literal"><span class="pre">~</span></code>) &#8211; Collection</li>
+<li><strong>kind</strong> (<em>CharField</em>) &#8211; Kind</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="uap/concepts_and_definitions.html" class="btn btn-neutral float-right" title="Concepts and Definitions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="building.html" class="btn btn-neutral" title="Distribution and installers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

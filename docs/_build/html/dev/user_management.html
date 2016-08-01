@@ -1,0 +1,373 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>User Management &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../index.html"/>
+        <link rel="up" title="Developer Guide" href="index.html"/>
+        <link rel="next" title="Front-end Architecture" href="frontend.html"/>
+        <link rel="prev" title="Implementation Details" href="uap/implementation.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#architecture">Architecture</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stack.html">Tech Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building.html">Distribution and installers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uap.html">Users, Authentication, and Permissions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">User Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#learner-management">Learner Management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#facility-management">Facility Management</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html">Front-end Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asset_loading.html">Front-end Asset Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html">Project Conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+      
+    <li>User Management</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/user_management.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="user-management">
+<h1>User Management<a class="headerlink" href="#user-management" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>For now, this is a high-level spec that identifies the major components of a work-in-progress part of Kolibri.
+It is a mixture of a descriptive specification for an app, as well as how it interacts with the kolibri.auth
+back-end layer below it.
+Eventually, it could serve as a user manual.</p>
+<p>The User Management allows a user with sufficient permissions to do a number of things related to managing accounts
+and roles. It&#8217;s divided into two distinct sections</p>
+<div class="section" id="learner-management">
+<h2>Learner Management<a class="headerlink" href="#learner-management" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Learner Management provides an interface for:</p>
+<ol class="arabic simple">
+<li>Viewing Classrooms and Learner Groups and a list of the learners they contain.</li>
+<li>Creating new Classrooms.</li>
+<li>Creating new Learner Groups.</li>
+<li>Creating new user accounts and assigning them to Classrooms and Learner Groups.</li>
+<li>Assigning existing accounts individually or in batches to Classrooms and Learner Groups.</li>
+<li>Editing a learner&#8217;s details, including resetting their password.</li>
+</ol>
+<p>The main interface of the Learner Management app is currently described in the mailing list thread &#8220;Learner Management
+app in Kolibri&#8221;. We assume the session user (the user who is visiting Learner Management) has write permissions for any
+object represented in the Learner Management interface. For example, only classrooms and learner groups for which the
+user has write permissions will be displayed in the Classroom and Group Selectors. In practice this could mean that
+when the page loads a list of classrooms for which the session user is either a coach or admin will be fetched.
+At the time of this writing, the only source to determine which users enjoy which permissions is the <code class="docutils literal"><span class="pre">kolibri.auth</span></code>
+test suite.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last"><strong>Roadmap:</strong>
+Moving forward, we are making digital prototypes for Learner Management. The aim is to get quality feedback from
+likely users to inform the design. IMO it is premature to consider a design as stable prior to such feedback.
+Role Management should be given a similar treatment &#8211; quickly create digital prototypes and get quality feedback.</p>
+</div>
+<p>Learner Management has several conceptual parts. These may not reflect how they&#8217;re divided as Vue components, so I try
+to reference the current implementation below. The application corresponds to <code class="docutils literal"><span class="pre">management/assets/app-root.vue</span></code> and has
+several subcomponents.</p>
+<div class="section" id="learner-roster">
+<h3>Learner Roster<a class="headerlink" href="#learner-roster" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Displays a list of learners determined by the current selectors and filters. Will update automatically based on user
+interaction with the selectors and filters. Each item in this list corresponds to a learner and has:</p>
+<ul class="simple">
+<li>A checkbox for bulk-selecting learners. Selecting multiple learners enables some actions described below.</li>
+<li>A <code class="docutils literal"><span class="pre">last</span> <span class="pre">name,</span> <span class="pre">first</span> <span class="pre">name</span></code> clickable link. Doing so summons a detail view modal for the learner.</li>
+<li>A <code class="docutils literal"><span class="pre">manage</span></code> button which summons a class and group management modal for that student.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">The roster described here corresponds to <code class="docutils literal"><span class="pre">learner-roster.vue</span></code>.</p>
+</div>
+<p>The detail view modal displays learner account data and provides a mechanism to reset a learner&#8217;s password.</p>
+<p>The class and group management modal displays a list classrooms to which the student belongs. Each classroom has a
+dropdown menu for assinging that learner to a specific group within that classroom. Additionally each classroom has a
+checkbox for bulk-selection. Bulk-selecting permits the session user to remove the learner from the selected clasrooms.
+Clicking &#8220;add&#8221; reveals classrooms to which the user doesn&#8217;t already belong. The learner may be added to those
+classrooms by selecting them with the corresponding checkboxes, and simultaneously select a group through the
+associated group dropdown.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last"><strong>UI simplification:</strong>
+There are a number of simplifying assumptions made here. For one, kolibri.auth permits a learner to belong to
+multiple groups within a classroom. Here we only allow a learner to belong to one group per classroom in order to
+simplify the UI.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last"><strong>UI simplification:</strong>
+Secondly, kolibri.auth has no notion of being &#8220;ungrouped&#8221;. The kolibri.auth module defines a Membership model that
+associates users to Learner Group and Classroom models. For the purposes of this app, when a learner is assigned to
+a group, then a Membership object to the underlying Learner Group object is created. Membership in a Learner Group
+implies the user is a member of the containing Classroom as well. When a learner is assigned to the &#8220;Ungrouped&#8221;
+group of a Classroom, it correponds to creating a Membership object associated with the Classroom. In all cases
+re-assigning a user to a different group should both destroy the existing Membership object and create a new one.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last"><strong>Roadmap:</strong>
+I consider the detail view and class and group management modals to be somewhat unsettled prior to getting quality
+user feedback.</p>
+</div>
+</div>
+<div class="section" id="selectors-and-filters">
+<h3>Selectors and filters<a class="headerlink" href="#selectors-and-filters" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>The UI allows the list of learner in the roster to be filtered. This includes:</p>
+<ul class="simple">
+<li>A classroom selector. This is populated by a list of classrooms for which the session user has write permissions,
+and the special option &#8220;All classrooms&#8221;. The list of learners is filtered to only show learners who are members of
+the selected classroom, or all learners if &#8220;All classrooms&#8221; is selected.</li>
+<li>A group selector. This is disabled if &#8220;All classrooms&#8221; is selected. Otherwise it is populated with the list of
+Learner Groups in the classroom with the special option &#8220;All groups&#8221;. This filters the list of learner analogously
+to the classroom selector.</li>
+<li>Potentially other filters, for example listing learners in alphabetical or reverse-alphabetical order.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">The classroom and group selectors are both instances of <code class="docutils literal"><span class="pre">drop-down.vue</span></code>. Space is reserved in <code class="docutils literal"><span class="pre">app-root.vue</span></code> right now for other filters, however they don&#8217;t correspond to subcomponents.</p>
+</div>
+</div>
+<div class="section" id="miscellaneous-widgets">
+<h3>Miscellaneous widgets<a class="headerlink" href="#miscellaneous-widgets" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Next to the classroom and group selectors are &#8220;add&#8221; and &#8220;remove&#8221; buttons. Clicking &#8220;add&#8221; summons a modal form for
+creating a new classroom and a new learner group within the currently selected classroom, respectively. The &#8220;add&#8221;
+button for groups is disabled if &#8220;All classrooms&#8221; is selected. Clicking &#8220;remove&#8221; deletes the currently selected
+classroom or learner group, respectively. The corresponding &#8220;delete&#8221; button is disabled if &#8220;All classrooms&#8221; or
+&#8220;All groups&#8221; is selected.</p>
+<p>Space is reserved next to the roster for an information panel to display elaborating information based on the current
+selection. Right now it includes only the total # of students which match the criteria determined by the selectors
+and filters.</p>
+</div>
+</div>
+<div class="section" id="facility-management">
+<h2>Facility Management<a class="headerlink" href="#facility-management" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Facility Management (previously referred to as Role Management) will provide an interface for managing user Roles in
+a Facility. Users may multiply possess Coach and Admin roles for a Facility or Classrooms within a Facility.</p>
+<p>Kolibri user data is fundamentally divided into Facilities &#8211; a user who belongs to one Facility can never see or
+interact with user account data from another Facility. However Kolibri provides another user type, called a Device
+Owner. Device Owners differ from Facility Users in the following ways:</p>
+<ul class="simple">
+<li>Device Owners are not syncable from device to device &#8211; this account type belongs to one physical machine only.
+In contrast, Facility Users account and their associated data are syncable.</li>
+<li>Device Owners enjoy every permission. They can be considered Admins for every Facility on the device.</li>
+<li>Device Owners may see and edit <em>all</em> Facilities on their Device, including choosing <em>which</em> Facility data sets are
+present on a physical device.</li>
+</ul>
+<p>The purview of the Facility Management app is to allow users to give and revoke the Coach and Admin roles for the
+Facility they belong to and the various Classrooms in that Facility. Moreover the functionality of the app is slightly
+differnt if the session user is a device owner:</p>
+<ul class="simple">
+<li>If the session user is a Device Owner, the user may select which Facility to manage. Facility Users may only manage
+their own Facility.</li>
+<li>A Device Owner may edit or delete a Facility. Editing a Facility can change it&#8217;s details like name, description,
+etc. Deleting a Facility does not destroy it &#8211; it is just removed from that device, so that Facility Users tied to
+that Facility may no longer log in.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last"><strong>Roadmap:</strong>
+Jessica has begun designing this. See
+<a class="reference external" href="https://projects.invisionapp.com/share/YJ75P75QH">the invision prototype.</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="frontend.html" class="btn btn-neutral float-right" title="Front-end Architecture" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="uap/implementation.html" class="btn btn-neutral" title="Implementation Details" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

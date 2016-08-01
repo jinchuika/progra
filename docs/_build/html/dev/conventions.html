@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Project Conventions &mdash; documentación de Kolibri - 0.0.1.dev20160723014609</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de Kolibri - 0.0.1.dev20160723014609" href="../index.html"/>
+        <link rel="up" title="Developer Guide" href="index.html"/>
+        <link rel="next" title="Files and Directories" href="files.html"/>
+        <link rel="prev" title="Front-end Asset Loading" href="asset_loading.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Kolibri
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev20160723014609
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#architecture">Architecture</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stack.html">Tech Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building.html">Distribution and installers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uap.html">Users, Authentication, and Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_management.html">User Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html">Front-end Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asset_loading.html">Front-end Asset Loading</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Project Conventions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#git-workflow">Git Workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-code">Python Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vue-js-components">Vue.js Components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#javascript-code">JavaScript Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylus-and-css">Stylus and CSS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#html">HTML</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logger.html">User Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">The <code class="docutils literal"><span class="pre">kolibri</span></code> command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Kolibri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Project Conventions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/conventions.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="project-conventions">
+<h1>Project Conventions<a class="headerlink" href="#project-conventions" title="Enlazar permanentemente con este título">¶</a></h1>
+<p><em>TODO</em></p>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Enlazar permanentemente con este título">¶</a></h2>
+<p><em>reStructuredText, docstrings, requirements for PRs to master...</em></p>
+</div>
+<div class="section" id="git-workflow">
+<h2>Git Workflow<a class="headerlink" href="#git-workflow" title="Enlazar permanentemente con este título">¶</a></h2>
+<p><em>stable master, develop, feature branches, tags, releases, hot fixes, internal vs external repos...</em></p>
+</div>
+<div class="section" id="python-code">
+<h2>Python Code<a class="headerlink" href="#python-code" title="Enlazar permanentemente con este título">¶</a></h2>
+<p><em>PEP8, additional conventions and best practices...</em></p>
+</div>
+<div class="section" id="vue-js-components">
+<h2>Vue.js Components<a class="headerlink" href="#vue-js-components" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Note that the top-level tags of <a class="reference external" href="https://vuejs.org/guide/components.html">Vue.js components</a> are <code class="docutils literal"><span class="pre">&lt;template&gt;</span></code>, <code class="docutils literal"><span class="pre">&lt;script&gt;</span></code>, and <code class="docutils literal"><span class="pre">&lt;style&gt;</span></code>.</p>
+<ul class="simple">
+<li>Whitespace<ul>
+<li>an indent is 2 spaces</li>
+<li>two blank lines between top-level tags</li>
+<li>one blank line of padding within a top-level tag</li>
+<li>one level of indent for the contents of all top-level tags</li>
+</ul>
+</li>
+<li>Keep most child-components stateless. In practice, this means using <code class="docutils literal"><span class="pre">props</span></code> but not <code class="docutils literal"><span class="pre">data</span></code>.</li>
+<li>Avoid using Vue.js&#8217; camelCase-to-kebab-case mapping. Instead, use square brackets and strings to reference names.</li>
+<li>Use <code class="docutils literal"><span class="pre">scoped</span></code> styles where ever possible</li>
+<li>Name custom tags using kebab-case</li>
+<li>Components are placed in the <em>vue</em> directory. The root component file is called <em>vue/index.vue</em>, and is mounted on a tag called <code class="docutils literal"><span class="pre">&lt;rootvue&gt;</span></code>.</li>
+<li>Components are defined either as a file with a <code class="docutils literal"><span class="pre">.vue</span></code> extension (<em>my-component.vue</em>) or as a directory with an <em>index.vue</em> file (<em>my-component/index.vue</em>). Both forms can be used with <code class="docutils literal"><span class="pre">require('my-component')</span></code>.</li>
+<li>Put child components inside the directory of a parent component if they are <em>only</em> used by the parent. Otherwise, put shared child components in the <em>vue</em> director.</li>
+</ul>
+</div>
+<div class="section" id="javascript-code">
+<h2>JavaScript Code<a class="headerlink" href="#javascript-code" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li>We use the <a class="reference external" href="https://github.com/airbnb/javascript">AirBnB Javascript Style guide</a> for client-side ES6 code in Vue components.</li>
+<li><code class="docutils literal"><span class="pre">use</span> <span class="pre">strict</span></code> is automatically inserted.</li>
+<li>Use CommonJS-style <code class="docutils literal"><span class="pre">require</span></code> and <code class="docutils literal"><span class="pre">module.exports</span></code> statements, not ES6 <code class="docutils literal"><span class="pre">import</span></code>/<code class="docutils literal"><span class="pre">export</span></code> statements.</li>
+</ul>
+</div>
+<div class="section" id="stylus-and-css">
+<h2>Stylus and CSS<a class="headerlink" href="#stylus-and-css" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li>clear out unused styles</li>
+<li>avoid using classes as JS identifiers, and prefix with <code class="docutils literal"><span class="pre">js-</span></code> if necessary</li>
+</ul>
+</div>
+<div class="section" id="html">
+<h2>HTML<a class="headerlink" href="#html" title="Enlazar permanentemente con este título">¶</a></h2>
+<p><em>attribute lists, semantic structure, accessibility...</em></p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="files.html" class="btn btn-neutral float-right" title="Files and Directories" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="asset_loading.html" class="btn btn-neutral" title="Front-end Asset Loading" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Learning Equality.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1.dev20160723014609',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
